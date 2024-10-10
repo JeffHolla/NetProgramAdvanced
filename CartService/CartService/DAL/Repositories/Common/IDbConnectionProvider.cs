@@ -1,9 +1,9 @@
-﻿using LiteDB;
+﻿using LiteDB.Async;
 
 namespace CartService.DAL.Repositories.Common
 {
     public interface IDbConnectionProvider
     {
-        public ILiteDatabase GetConnection();
+        public ILiteDatabaseAsync GetConnection();
     }
 }

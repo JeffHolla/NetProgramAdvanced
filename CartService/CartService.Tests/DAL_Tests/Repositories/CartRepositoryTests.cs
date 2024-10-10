@@ -2,7 +2,7 @@
 using CartService.DAL.Repositories;
 using CartService.DAL.Repositories.Common;
 using FluentAssertions;
-using LiteDB;
+using LiteDB.Async;
 using NSubstitute;
 
 namespace CartService.Tests.DAL_Tests.Repositories
@@ -12,34 +12,34 @@ namespace CartService.Tests.DAL_Tests.Repositories
     {
         private readonly string DbFilePath = "./TestData.db";
 
-        private ILiteDatabase _databaseConnection => new LiteDatabase(DbFilePath);
+        private ILiteDatabaseAsync DatabaseConnection => new LiteDatabaseAsync(DbFilePath);
 
         [Test]
-        public void GetCartItems_Works()
+        public async Task GetCartItems_Works()
         {
             var item = new ProductItem(1, "name 1", 1, 1);
             var expectedCart = new Cart() { Id = 1, Items = [item] };
-            InitializeTestDatabase(expectedCart);
+            await InitializeTestDatabaseAsync(expectedCart);
 
             var dbConnectionProvider = Substitute.For<IDbConnectionProvider>();
-            dbConnectionProvider.GetConnection().Returns(_ => _databaseConnection);
+            dbConnectionProvider.GetConnection().Returns(_ => DatabaseConnection);
 
             var cartRepository = new CartRepository(dbConnectionProvider);
 
             // Act
-            var actual = cartRepository.GetEntity(1);
+            var actual = await cartRepository.GetEntityAsync(1);
 
             // Assert
             actual.Should().BeEquivalentTo(expectedCart);
         }
 
-        private void InitializeTestDatabase(Cart cart)
+        private async Task InitializeTestDatabaseAsync(Cart cart)
         {
-            using var db = _databaseConnection;
+            using var db = DatabaseConnection;
             var carts = db.GetCollection<Cart>();
-            carts.DeleteAll();
+            await carts.DeleteAllAsync();
 
-            carts.Insert(cart);
+            await carts.InsertAsync(cart);
         }
     }
 }

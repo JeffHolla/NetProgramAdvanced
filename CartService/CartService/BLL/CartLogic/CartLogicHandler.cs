@@ -13,13 +13,13 @@ namespace CartService.BLL.CartLogic
             _cartRepository = cartRepository;
         }
 
-        public IReadOnlyCollection<ProductItem> GetCartItems(int cartId)
+        public async Task<IReadOnlyCollection<ProductItem>> GetCartItemsAsync(int cartId)
         {
-            var cart = _cartRepository.GetEntity(cartId);
+            var cart = await _cartRepository.GetEntityAsync(cartId);
             return cart.Items.AsReadOnly();
         }
 
-        public void AddItemToCart(int cartId, ProductItem productItem)
+        public async Task AddItemToCartAsync(int cartId, ProductItem productItem)
         {
             var validationResult = new CartItemValidator().Validate(productItem);
             if (!validationResult.IsValid)
@@ -29,18 +29,18 @@ namespace CartService.BLL.CartLogic
                 throw new ValidationFailedException(errorMessagesString);
             }
 
-            var cart = _cartRepository.GetEntity(cartId);
+            var cart = await _cartRepository.GetEntityAsync(cartId);
             cart.AddItem(productItem);
 
-            _cartRepository.UpdateEntity(cart.Id, cart);
+            await _cartRepository.UpdateEntityAsync(cart.Id, cart);
         }
 
-        public void RemoveItemFromCart(int cartId, int itemId)
+        public async Task RemoveItemFromCartAsync(int cartId, int itemId)
         {
-            var cart = _cartRepository.GetEntity(cartId);
+            var cart = await _cartRepository.GetEntityAsync(cartId);
             cart.RemoveItem(itemId);
 
-            _cartRepository.UpdateEntity(cart.Id, cart);
+            await _cartRepository.UpdateEntityAsync(cart.Id, cart);
         }
     }
 }

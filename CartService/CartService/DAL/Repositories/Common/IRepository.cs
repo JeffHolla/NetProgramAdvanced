@@ -1,9 +1,8 @@
-﻿namespace CartService.DAL.Repositories.Common
+﻿namespace CartService.DAL.Repositories.Common;
+
+public interface IRepository<T>
 {
-    public interface IRepository<T>
-    {
-        T GetEntity(int id);
-        void AddEntity(T newEntity);
-        void UpdateEntity(int entityId, T updatedEntity);
-    }
+    Task<T> GetEntityAsync(int id);
+    Task AddEntityAsync(T newEntity);
+    Task UpdateEntityAsync(int entityId, T updatedEntity);
 }

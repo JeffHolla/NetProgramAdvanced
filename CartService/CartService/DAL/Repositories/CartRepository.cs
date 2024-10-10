@@ -8,30 +8,30 @@ namespace CartService.DAL.Repositories
         public CartRepository(IDbConnectionProvider connectionProvider)
             : base(connectionProvider) {}
 
-        public override Cart GetEntity(int id)
+        public override async Task<Cart> GetEntityAsync(int id)
         {
             using var connection = OpenConnection();
             var carts = connection.GetCollection<Cart>();
 
-            var cart = carts.FindOne(cart => cart.Id == id);
+            var cart = await carts.FindOneAsync(cart => cart.Id == id);
             return cart;
         }
 
-        public override void AddEntity(Cart newEntity)
+        public override async Task AddEntityAsync(Cart newEntity)
         {
             using var connection = OpenConnection();
             var carts = connection.GetCollection<Cart>();
 
-            carts.Insert(newEntity);
+            await carts.InsertAsync(newEntity);
         }
 
-        public override void UpdateEntity(int entityToUpdateId, Cart updatedEntity)
+        public override async Task UpdateEntityAsync(int entityToUpdateId, Cart updatedEntity)
         {
             using var connection = OpenConnection();
             var carts = connection.GetCollection<Cart>();
 
-            var cartToUpdate = carts.FindOne(cart => cart.Id == cart.Id);
-            var result = carts.Update(cartToUpdate.Id, updatedEntity);
+            var cartToUpdate = await carts.FindOneAsync(cart => cart.Id == cart.Id);
+            await carts.UpdateAsync(cartToUpdate.Id, updatedEntity);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace CartService.Common.Entities;
+﻿using CartService.Domain.Exceptions;
+
+namespace CartService.Common.Entities;
 
 public class Cart
 {
@@ -27,21 +29,5 @@ public class Cart
         }
 
         Items.Remove(itemForRemoval);
-    }
-
-    [Serializable]
-    private class NotFoundCartItemException : Exception
-    {
-        public NotFoundCartItemException()
-        {
-        }
-
-        public NotFoundCartItemException(string? message) : base(message)
-        {
-        }
-
-        public NotFoundCartItemException(string? message, Exception? innerException) : base(message, innerException)
-        {
-        }
     }
 }
