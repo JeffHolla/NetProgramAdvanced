@@ -5,7 +5,7 @@ namespace CatalogService.Application.Features.CategoryHandlers.Command.UpdateCat
 
 public class UpdateCategoryCommand : IRequest
 {
-    public int CategoryId { get; init; }
+    public int CategoryId { get; set; }
     public string NewName { get; init; }
     public string? NewImage { get; init; }
     public Category? NewParent { get; init; }

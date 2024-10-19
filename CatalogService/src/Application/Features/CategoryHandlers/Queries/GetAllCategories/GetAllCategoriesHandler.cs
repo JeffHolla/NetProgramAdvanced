@@ -17,7 +17,9 @@ public class GetAllProductsHandler : IRequestHandler<GetAllCategoriesQuery, List
 
     public async Task<ListResponse<Category>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
     {
-        var categories = await _context.Categories.ToListAsync(cancellationToken);
+        var categories = await _context.Categories
+                                        .Include(category => category.Products)
+                                        .ToListAsync(cancellationToken);
         return new ListResponse<Category>(categories);
     }
 }

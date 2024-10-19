@@ -4,7 +4,8 @@ public class Category : BaseEntity
 {
     public string Name { get; set; }
     public string? Image { get; set; }
-    public Category Parent { get; set; }
+    public Category? Parent { get; set; }
+    public List<Product> Products { get; set; } = [];
 
     public void Update(Category updatedCategory)
     {

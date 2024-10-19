@@ -28,7 +28,7 @@ public class GetAllProductsTests : BaseTestFixture
         var product1 = new Product
         {
             Name = "1",
-            //Category = firstCategory,
+            Category = firstCategory,
             Description = "1",
             Price = 1,
             Amount = 1
@@ -37,7 +37,7 @@ public class GetAllProductsTests : BaseTestFixture
         var product2 = new Product
         {
             Name = "2",
-            //Category = firstCategory,
+            Category = firstCategory,
             Description = "2",
             Price = 2,
             Amount = 2

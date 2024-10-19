@@ -8,7 +8,16 @@ public class UpdateProductCommandValidator : AbstractValidator<UpdateProductComm
             .MaximumLength(50)
             .NotEmpty();
 
-        RuleFor(category => category.NewCategory)
-            .NotEmpty();
+        RuleFor(category => category.ProductId)
+            .NotNull();
+
+        RuleFor(category => category.NewCategoryId)
+            .NotNull();
+
+        RuleFor(product => product.NewAmount)
+            .NotNull();
+
+        RuleFor(product => product.NewPrice)
+            .NotNull();
     }
 }

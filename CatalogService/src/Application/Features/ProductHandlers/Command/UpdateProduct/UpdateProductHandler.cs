@@ -5,13 +5,13 @@ namespace CatalogService.Application.Features.ProductHandlers.Command.UpdateProd
 
 public class UpdateProductCommand : IRequest
 {
-    public int ProductId { get; init; }
+    public int? ProductId { get; set; }
     public string NewName { get; init; }
     public string? NewDescription { get; init; }
     public string? NewImage { get; init; }
-    public Category NewCategory { get; init; }
-    public decimal NewPrice { get; init; }
-    public uint NewAmount { get; init; }
+    public int? NewCategoryId { get; init; }
+    public decimal? NewPrice { get; init; }
+    public int? NewAmount { get; init; }
 }
 
 public class UpdateProductHandler : IRequestHandler<UpdateProductCommand>
@@ -38,9 +38,9 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductCommand>
         {
             Name = request.NewName,
             Description = request.NewDescription,
-            Category = request.NewCategory,
-            Price = request.NewPrice,
-            Amount = request.NewAmount,
+            CategoryId = request.NewCategoryId.Value,
+            Price = request.NewPrice.Value,
+            Amount = request.NewAmount.Value,
             Image = request.NewImage
         };
 
