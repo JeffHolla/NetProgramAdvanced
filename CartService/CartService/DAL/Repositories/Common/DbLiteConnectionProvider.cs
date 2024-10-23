@@ -6,7 +6,11 @@ namespace CartService.DAL.Repositories.Common
     {
         public required string ConnectionString { get; set; }
 
-        public ILiteDatabaseAsync GetConnection() 
-            => new LiteDatabaseAsync(ConnectionString);
+        private ILiteDatabaseAsync _connection;
+        public ILiteDatabaseAsync GetConnection()
+        { 
+            _connection ??= new LiteDatabaseAsync(ConnectionString);
+            return _connection;
+        }
     }
 }

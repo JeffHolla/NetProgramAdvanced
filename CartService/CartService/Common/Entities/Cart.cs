@@ -1,10 +1,10 @@
-﻿using CartService.Domain.Exceptions;
+﻿using CartService.Common.Exceptions;
 
 namespace CartService.Common.Entities;
 
 public class Cart
 {
-    public int Id { get; set; }
+    public string Id { get; set; }
 
     // This constraints are from DB. DBLite REQUIRES Public GET SET properties
     public List<ProductItem> Items { get; init; } = [];

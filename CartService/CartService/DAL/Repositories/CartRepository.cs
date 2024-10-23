@@ -3,14 +3,24 @@ using CartService.DAL.Repositories.Common;
 
 namespace CartService.DAL.Repositories
 {
+    // TODO: Rework this 100%
     public class CartRepository : BaseRepository<Cart>
     {
         public CartRepository(IDbConnectionProvider connectionProvider)
             : base(connectionProvider) {}
 
-        public override async Task<Cart> GetEntityAsync(int id)
+        public override async Task<IEnumerable<Cart>> GetAllEntitiesAsync()
         {
-            using var connection = OpenConnection();
+            var connection = OpenConnection();
+            var cartsCollection = connection.GetCollection<Cart>();
+
+            var carts = await cartsCollection.FindAllAsync();
+            return carts;
+        }
+
+        public override async Task<Cart> GetEntityAsync(string id)
+        {
+            var connection = OpenConnection();
             var carts = connection.GetCollection<Cart>();
 
             var cart = await carts.FindOneAsync(cart => cart.Id == id);
@@ -19,18 +29,18 @@ namespace CartService.DAL.Repositories
 
         public override async Task AddEntityAsync(Cart newEntity)
         {
-            using var connection = OpenConnection();
+            var connection = OpenConnection();
             var carts = connection.GetCollection<Cart>();
 
             await carts.InsertAsync(newEntity);
         }
 
-        public override async Task UpdateEntityAsync(int entityToUpdateId, Cart updatedEntity)
+        public override async Task UpdateEntityAsync(string entityToUpdateId, Cart updatedEntity)
         {
-            using var connection = OpenConnection();
+            var connection = OpenConnection();
             var carts = connection.GetCollection<Cart>();
 
-            var cartToUpdate = await carts.FindOneAsync(cart => cart.Id == cart.Id);
+            var cartToUpdate = await carts.FindOneAsync(cart => cart.Id == entityToUpdateId);
             await carts.UpdateAsync(cartToUpdate.Id, updatedEntity);
         }
     }

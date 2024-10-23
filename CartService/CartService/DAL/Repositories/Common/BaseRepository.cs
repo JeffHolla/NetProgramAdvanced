@@ -1,4 +1,5 @@
-﻿using LiteDB.Async;
+﻿using CartService.Common.Entities;
+using LiteDB.Async;
 
 namespace CartService.DAL.Repositories.Common;
 
@@ -13,11 +14,13 @@ public abstract class BaseRepository<T> : IRepository<T>
         _connectionProvider = connectionProvider;
     }
 
-    public abstract Task<T> GetEntityAsync(int id);
+    public abstract Task<IEnumerable<T>> GetAllEntitiesAsync();
+
+    public abstract Task<T> GetEntityAsync(string id);
 
     public abstract Task AddEntityAsync(T newEntity);
 
-    public abstract Task UpdateEntityAsync(int entityToUpdateId, T updatedEntity);
+    public abstract Task UpdateEntityAsync(string entityToUpdateId, T updatedEntity);
 
     protected ILiteDatabaseAsync OpenConnection() 
         => _connectionProvider.GetConnection();

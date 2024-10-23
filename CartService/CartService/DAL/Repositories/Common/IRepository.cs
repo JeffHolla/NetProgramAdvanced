@@ -2,7 +2,8 @@
 
 public interface IRepository<T>
 {
-    Task<T> GetEntityAsync(int id);
+    Task<IEnumerable<T>> GetAllEntitiesAsync();
+    Task<T> GetEntityAsync(string id);
     Task AddEntityAsync(T newEntity);
-    Task UpdateEntityAsync(int entityId, T updatedEntity);
+    Task UpdateEntityAsync(string entityId, T updatedEntity);
 }

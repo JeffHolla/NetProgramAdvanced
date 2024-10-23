@@ -1,33 +1,95 @@
-﻿using CartService.BLL.CartLogic;
+﻿using Asp.Versioning;
+using CartService.BLL.CartLogic;
 using CartService.Common.Entities;
 using CartService.DAL.Repositories;
 using CartService.DAL.Repositories.Common;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+using System.Text.Json.Serialization;
 
 namespace CartService
 {
-    // This whole file is not in scope of the task. The purpose of this file is only for tests and DI.
     internal class Program
     {
         private static IServiceProvider _serviceProvider;
         static void Main(string[] args)
         {
-            AddServices();
+            var builder = WebApplication.CreateBuilder(args);
+
+            AddServices(builder);
+
+            builder.Services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                });
+
+            builder.Services.AddApiVersioning(opt => 
+            {
+                opt.ReportApiVersions = true;
+                opt.AssumeDefaultVersionWhenUnspecified = true;
+                opt.DefaultApiVersion = new ApiVersion(1, 0);
+            });
+
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Cart API",
+                    Description = "Cart API"
+                });
+
+                options.SwaggerDoc("v2", new OpenApiInfo
+                {
+                    Version = "v2",
+                    Title = "Cart API",
+                    Description = "Cart API"
+                });
+            });
+
+            // -------------- Request Pipeline --------------
+            var app = builder.Build();
+            _serviceProvider = app.Services;
+
+            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+
+                app.UseDeveloperExceptionPage();
+            }
+
+            if (app.Environment.IsProduction())
+            {
+                app.UseExceptionHandler("/Error");
+                app.UseHsts();
+            }
+
+            app.UseHttpsRedirection();
+
+            app.UseRouting();
+
+            app.MapControllers();
+
+            app.Run();
         }
 
-        public static void AddServices()
+        private static void AddServices(IHostApplicationBuilder builder)
         {
-            HostApplicationBuilder builder = Host.CreateApplicationBuilder();
-
             builder.Services.AddScoped<IRepository<Cart>, CartRepository>();
             builder.Services.AddScoped<ICartLogicHandler, CartLogicHandler>();
 
-            builder.Services.AddScoped<IDbConnectionProvider, DbLiteConnectionProvider>(_ =>
+            builder.Services.AddSingleton<IDbConnectionProvider, DbLiteConnectionProvider>(_ =>
                     new DbLiteConnectionProvider() { ConnectionString = "./MyData.db" }); // It's better to move Db path into a configuration file
-
-            using var host = builder.Build();
-            _serviceProvider = host.Services;
         }
+
+        private static IHostApplicationBuilder GetConsoleBuilder()
+            => Host.CreateApplicationBuilder();
+
+        private static IHostApplicationBuilder GetWebBuilder()
+            => Host.CreateApplicationBuilder();
     }
 }

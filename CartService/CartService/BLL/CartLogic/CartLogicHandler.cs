@@ -13,13 +13,26 @@ namespace CartService.BLL.CartLogic
             _cartRepository = cartRepository;
         }
 
-        public async Task<IReadOnlyCollection<ProductItem>> GetCartItemsAsync(int cartId)
+        public async Task<IEnumerable<Cart>> GetAllCartsAsync()
         {
-            var cart = await _cartRepository.GetEntityAsync(cartId);
-            return cart.Items.AsReadOnly();
+            var carts = await _cartRepository.GetAllEntitiesAsync();
+
+            return carts;
         }
 
-        public async Task AddItemToCartAsync(int cartId, ProductItem productItem)
+        public async Task<Cart> GetCartAsync(string cartId)
+        {
+            var cart = await _cartRepository.GetEntityAsync(cartId);
+
+            if (cart == null)
+            {
+                throw new KeyNotFoundException($"Cart with id '{cartId}' was not found.");
+            }
+
+            return cart;
+        }
+
+        public async Task AddItemToCartAsync(string cartId, ProductItem productItem)
         {
             var validationResult = new CartItemValidator().Validate(productItem);
             if (!validationResult.IsValid)
@@ -29,18 +42,35 @@ namespace CartService.BLL.CartLogic
                 throw new ValidationFailedException(errorMessagesString);
             }
 
-            var cart = await _cartRepository.GetEntityAsync(cartId);
+            var cart = await GetOrCreateCartAsync(cartId);
             cart.AddItem(productItem);
 
             await _cartRepository.UpdateEntityAsync(cart.Id, cart);
         }
 
-        public async Task RemoveItemFromCartAsync(int cartId, int itemId)
+        public async Task RemoveItemFromCartAsync(string cartId, int itemId)
         {
             var cart = await _cartRepository.GetEntityAsync(cartId);
             cart.RemoveItem(itemId);
 
             await _cartRepository.UpdateEntityAsync(cart.Id, cart);
+        }
+
+        private async Task<Cart> GetOrCreateCartAsync(string cartId)
+        {
+            var foundCart = await _cartRepository.GetEntityAsync(cartId);
+            if (foundCart != null)
+            {
+                return foundCart;
+            }
+
+            var newCart = new Cart
+            {
+                Id = cartId
+            };
+            await _cartRepository.AddEntityAsync(newCart);
+
+            return newCart;
         }
     }
 }
