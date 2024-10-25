@@ -5,11 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CartService.PL.WebAPI.Controllers.V1;
 
-[ApiVersion(1.0)]
+[ApiController, ApiVersion(1.0)]
 [Route("api/v{version:apiVersion}/carts")]
-[ApiController]
-[Produces("application/json", "application/xml")]
-[Consumes("application/json", "application/xml")]
+[Produces("application/json")]
+[Consumes("application/json")]
 public class CartsController(ICartLogicHandler cartLogic) : ControllerBase
 {
     [HttpGet()]
@@ -23,7 +22,7 @@ public class CartsController(ICartLogicHandler cartLogic) : ControllerBase
 
     [HttpGet("{cartId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetCart(string cartId)
+    public async Task<IActionResult> GetCartInfo(string cartId)
     {
         var cart = await cartLogic.GetCartAsync(cartId);
 
