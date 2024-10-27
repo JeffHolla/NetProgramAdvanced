@@ -5,6 +5,7 @@ using CartService.DAL.Repositories;
 using CartService.DAL.Repositories.Common;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Reflection;
 using System.Text.Json.Serialization;
 
 namespace CartService
@@ -44,7 +45,11 @@ namespace CartService
             //https://github.com/dotnet/aspnet-api-versioning/wiki/API-Documentation#aspnet-core
             builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(options =>
+            {
+                var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";  
+                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+            });
 
             builder.Services.AddEndpointsApiExplorer();
 
