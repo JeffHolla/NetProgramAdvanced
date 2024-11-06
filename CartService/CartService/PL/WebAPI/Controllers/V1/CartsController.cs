@@ -51,9 +51,9 @@ public class CartsController(ICartLogicHandler cartLogic) : ControllerBase
     /// </returns> 
     [HttpGet("{cartId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetCartInfo(string cartId)
+    public IActionResult GetCartInfo(string cartId)
     {
-        var cart = await cartLogic.GetCartAsync(cartId);
+        var cart = cartLogic.GetCartAsync(cartId);
 
         return Ok(cart);
     }
