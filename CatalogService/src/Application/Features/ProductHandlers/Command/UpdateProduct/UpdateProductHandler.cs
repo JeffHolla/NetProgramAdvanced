@@ -1,4 +1,6 @@
-﻿using CatalogService.Application.Common.Interfaces;
+﻿using System.Text.Json;
+using CatalogService.Application.Common.Interfaces.Database;
+using CatalogService.Application.Common.Interfaces.Services;
 using CatalogService.Domain.Entities;
 
 namespace CatalogService.Application.Features.ProductHandlers.Command.UpdateProduct;
@@ -6,7 +8,7 @@ namespace CatalogService.Application.Features.ProductHandlers.Command.UpdateProd
 public class UpdateProductCommand : IRequest
 {
     public int? ProductId { get; set; }
-    public string NewName { get; init; }
+    public string? NewName { get; init; }
     public string? NewDescription { get; init; }
     public string? NewImage { get; init; }
     public int? NewCategoryId { get; init; }
@@ -17,10 +19,12 @@ public class UpdateProductCommand : IRequest
 public class UpdateProductHandler : IRequestHandler<UpdateProductCommand>
 {
     private readonly IApplicationDbContext _context;
+    private readonly ICartClientService _cartService;
 
-    public UpdateProductHandler(IApplicationDbContext context)
+    public UpdateProductHandler(IApplicationDbContext context, ICartClientService cartService)
     {
         _context = context;
+        _cartService = cartService;
     }
 
     // Validation has been executed in MediatR Behaviours
@@ -36,15 +40,19 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductCommand>
 
         var updatedProduct = new Product()
         {
-            Name = request.NewName,
-            Description = request.NewDescription,
-            CategoryId = request.NewCategoryId.Value,
-            Price = request.NewPrice.Value,
-            Amount = request.NewAmount.Value,
-            Image = request.NewImage
+            Name = request.NewName ?? existedProduct.Name,
+            Description = request.NewDescription ?? existedProduct.Description,
+            CategoryId = request.NewCategoryId ?? existedProduct.CategoryId,
+            Price = request.NewPrice ?? existedProduct.Price,
+            Amount = request.NewAmount ?? existedProduct.Amount,
+            Image = request.NewImage ?? existedProduct.Image
         };
 
         existedProduct.Update(updatedProduct);
         await _context.SaveChangesAsync(cancellationToken);
+
+        var message = new UpdateProductEvent(request);
+        var messageJson = JsonSerializer.Serialize(message);
+        await _cartService.SendMessageToQueue(messageJson, cancellationToken);
     }
 }

@@ -1,4 +1,4 @@
-﻿using CatalogService.Application.Common.Interfaces;
+﻿using CatalogService.Application.Common.Interfaces.Database;
 using CatalogService.Application.Common.Models;
 using CatalogService.Domain.Entities;
 
@@ -15,11 +15,12 @@ public class GetAllProductsHandler : IRequestHandler<GetAllCategoriesQuery, List
         _context = context;
     }
 
-    public async Task<ListResponse<Category>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
+    public async Task<ListResponse<Category>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken = default)
     {
         var categories = await _context.Categories
                                         .Include(category => category.Products)
                                         .ToListAsync(cancellationToken);
+
         return new ListResponse<Category>(categories);
     }
 }

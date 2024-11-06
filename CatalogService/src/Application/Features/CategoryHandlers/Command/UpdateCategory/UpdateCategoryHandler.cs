@@ -1,4 +1,4 @@
-﻿using CatalogService.Application.Common.Interfaces;
+﻿using CatalogService.Application.Common.Interfaces.Database;
 using CatalogService.Domain.Entities;
 
 namespace CatalogService.Application.Features.CategoryHandlers.Command.UpdateCategory;

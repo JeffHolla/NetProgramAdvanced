@@ -1,9 +1,14 @@
-﻿using CatalogService.Application.Common.Interfaces;
+﻿using CatalogService.Application.Common.Interfaces.Database;
+using CatalogService.Application.Common.Interfaces.Messaging;
+using CatalogService.Application.Common.Interfaces.Services;
 using CatalogService.Infrastructure.Data;
+using CatalogService.Infrastructure.Messaging;
+using CatalogService.Infrastructure.Services.CartService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.Extensions.DependencyInjection;
+namespace CatalogService.Infrastructure;
 
 public static class DependencyInjection
 {
@@ -18,7 +23,12 @@ public static class DependencyInjection
         services.AddScoped<IReadOnlyApplicationDbContext, ReadOnlyApplicationDbContext>();
 
         services.AddSingleton(TimeProvider.System);
-        
+
+        services.AddScoped<IQueueClient, RabbitQueue>();
+
+        services.AddScoped<ICartClientService, CartClientService>();
+        services.Configure<CartQueueOptions>(configuration.GetSection("CartQueue"));
+
         return services;
     }
 }

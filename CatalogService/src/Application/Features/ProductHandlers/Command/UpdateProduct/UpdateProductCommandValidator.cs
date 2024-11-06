@@ -5,19 +5,9 @@ public class UpdateProductCommandValidator : AbstractValidator<UpdateProductComm
     public UpdateProductCommandValidator()
     {
         RuleFor(category => category.NewName)
-            .MaximumLength(50)
-            .NotEmpty();
+            .MaximumLength(50);
 
         RuleFor(category => category.ProductId)
-            .NotNull();
-
-        RuleFor(category => category.NewCategoryId)
-            .NotNull();
-
-        RuleFor(product => product.NewAmount)
-            .NotNull();
-
-        RuleFor(product => product.NewPrice)
             .NotNull();
     }
 }

@@ -1,4 +1,4 @@
-﻿using CatalogService.Application.Common.Interfaces;
+﻿using CatalogService.Application.Common.Interfaces.Database;
 
 namespace CatalogService.Application.Features.CategoryHandlers.Command.DeleteCategory;
 

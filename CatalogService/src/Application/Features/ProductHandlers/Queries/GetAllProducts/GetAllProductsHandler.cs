@@ -1,4 +1,4 @@
-﻿using CatalogService.Application.Common.Interfaces;
+﻿using CatalogService.Application.Common.Interfaces.Database;
 using CatalogService.Application.Common.Models;
 using CatalogService.Domain.Entities;
 

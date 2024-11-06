@@ -1,5 +1,8 @@
 using System.Text.Json.Serialization;
+using CatalogService.Infrastructure;
 using CatalogService.Infrastructure.Data;
+using CatalogService.Infrastructure.Services;
+using Microsoft.Extensions.Options;
 
 namespace CatalogService.Web;
 

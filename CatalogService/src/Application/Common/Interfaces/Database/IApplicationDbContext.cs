@@ -1,6 +1,6 @@
 ﻿using CatalogService.Domain.Entities;
 
-namespace CatalogService.Application.Common.Interfaces;
+namespace CatalogService.Application.Common.Interfaces.Database;
 
 public interface IApplicationDbContext
 {
