@@ -3,7 +3,10 @@ using CatalogService.Application.Common.Interfaces.Messaging;
 using CatalogService.Application.Common.Interfaces.Services;
 using CatalogService.Infrastructure.Data;
 using CatalogService.Infrastructure.Messaging;
+using CatalogService.Infrastructure.Security.Identity;
 using CatalogService.Infrastructure.Services.CartService;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +31,20 @@ public static class DependencyInjection
 
         services.AddScoped<ICartClientService, CartClientService>();
         services.Configure<CartQueueOptions>(configuration.GetSection("CartQueue"));
+
+        // Authentication, Authorization
+        services
+            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme);
+
+        services.AddDatabaseDeveloperPageExceptionFilter();
+        
+        services.AddIdentityApiEndpoints<IdentityUser>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddApiEndpoints();
+
+        services.AddAuthorization();
 
         return services;
     }

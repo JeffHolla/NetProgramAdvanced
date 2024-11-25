@@ -1,8 +1,7 @@
 using System.Text.Json.Serialization;
 using CatalogService.Infrastructure;
 using CatalogService.Infrastructure.Data;
-using CatalogService.Infrastructure.Services;
-using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Identity;
 
 namespace CatalogService.Web;
 
@@ -20,7 +19,7 @@ public class Program
 
         builder.Services.AddApplicationServices();
         builder.Services.AddInfrastructureServices(builder.Configuration);
-        
+
         builder.Services.AddControllers()
             .AddJsonOptions(options =>
             {
@@ -30,6 +29,8 @@ public class Program
 
         // -------------- Request Pipeline --------------
         var app = builder.Build();
+
+        app.MapIdentityApi<IdentityUser>();
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
@@ -48,8 +49,14 @@ public class Program
 
         app.UseRouting();
 
-        app.MapControllers();
-        
+        // https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity?view=aspnetcore-8.0&tabs=visual-studio#configure-identity-services
+        app.UseAuthentication();
+
+        app.UseAuthorization();
+
+        app.MapControllers()
+            .RequireAuthorization();
+
         app.Run();
     }
 }

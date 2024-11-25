@@ -4,8 +4,10 @@ using CatalogService.Application.Features.ProductHandlers.Command.DeleteProduct;
 using CatalogService.Application.Features.ProductHandlers.Command.UpdateProduct;
 using CatalogService.Application.Features.ProductHandlers.Queries.GetAllProducts;
 using CatalogService.Domain.Entities;
+using CatalogService.Infrastructure.Security.Identity;
 using CatalogService.Web.RestModels;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CatalogService.Web.Controllers;
@@ -14,6 +16,7 @@ namespace CatalogService.Web.Controllers;
 [ApiController]
 [Produces("application/json")]
 [Consumes("application/json", "application/xml")]
+[Authorize(Roles = $"{ApplicationRoles.Manager}, {ApplicationRoles.StoreCustomer}")]
 public class ProductsController(IMediator mediator) : ControllerBase
 {
     [HttpGet]
@@ -43,6 +46,7 @@ public class ProductsController(IMediator mediator) : ControllerBase
 
     // An example of the Third maturity level 
     [HttpPost(Name = nameof(AddProduct))]
+    [Authorize(Roles = $"{ApplicationRoles.Manager}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<IActionResult> AddProduct([FromBody] AddProductCommand command)
     {
@@ -62,6 +66,7 @@ public class ProductsController(IMediator mediator) : ControllerBase
 
     // An example of the Third maturity level 
     [HttpPut("{productId}")]
+    [Authorize(Roles = $"{ApplicationRoles.Manager}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> UpdateProduct(int productId, [FromBody] UpdateProductCommand command)
     {
@@ -79,6 +84,7 @@ public class ProductsController(IMediator mediator) : ControllerBase
     }
 
     [HttpDelete("{productId}")]
+    [Authorize(Roles = $"{ApplicationRoles.Manager}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> DeleteCategory(int productId)
     {

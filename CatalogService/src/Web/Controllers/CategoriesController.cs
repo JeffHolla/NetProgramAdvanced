@@ -4,8 +4,10 @@ using CatalogService.Application.Features.CategoryHandlers.Command.UpdateCategor
 using CatalogService.Application.Features.CategoryHandlers.Queries.GetAllCategories;
 using CatalogService.Application.Features.CategoryHandlers.Queries.GetCategory;
 using CatalogService.Domain.Entities;
+using CatalogService.Infrastructure.Security.Identity;
 using CatalogService.Web.RestModels;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CatalogService.Web.Controllers;
@@ -14,6 +16,7 @@ namespace CatalogService.Web.Controllers;
 [ApiController]
 [Produces("application/json", "application/xml")]
 [Consumes("application/json", "application/xml")]
+[Authorize(Roles = $"{ApplicationRoles.Manager}, {ApplicationRoles.StoreCustomer}")]
 public class CategoriesController(IMediator mediator) : ControllerBase
 {
     [HttpGet]
@@ -43,6 +46,7 @@ public class CategoriesController(IMediator mediator) : ControllerBase
 
     // An example of the Third maturity level 
     [HttpPost(Name = nameof(AddCategory))]
+    [Authorize(Roles = $"{ApplicationRoles.Manager}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<IActionResult> AddCategory([FromBody] AddCategoryCommand command)
     {
@@ -62,6 +66,7 @@ public class CategoriesController(IMediator mediator) : ControllerBase
 
     // An example of the Third maturity level 
     [HttpPut("{categoryId}")]
+    [Authorize(Roles = $"{ApplicationRoles.Manager}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> UpdateCategory(int categoryId, [FromBody] UpdateCategoryCommand command)
     {
@@ -79,6 +84,7 @@ public class CategoriesController(IMediator mediator) : ControllerBase
     }
 
     [HttpDelete("{categoryId}")]
+    [Authorize(Roles = $"{ApplicationRoles.Manager}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> DeleteCategory(int categoryId)
     {
