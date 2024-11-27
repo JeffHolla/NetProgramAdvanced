@@ -30,8 +30,6 @@ public class Program
         // -------------- Request Pipeline --------------
         var app = builder.Build();
 
-        app.MapIdentityApi<IdentityUser>();
-
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {

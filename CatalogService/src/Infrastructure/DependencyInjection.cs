@@ -5,8 +5,9 @@ using CatalogService.Infrastructure.Data;
 using CatalogService.Infrastructure.Messaging;
 using CatalogService.Infrastructure.Security.Identity;
 using CatalogService.Infrastructure.Services.CartService;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +21,7 @@ public static class DependencyInjection
         var connectionString = configuration.GetConnectionString("DefaultConnection");
         services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(connectionString));
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
+        services.AddDatabaseDeveloperPageExceptionFilter();
 
         services.AddScoped<ApplicationDbContextInitialiser>();
 
@@ -34,15 +36,42 @@ public static class DependencyInjection
 
         // Authentication, Authorization
         services
-            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme);
+            .AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = "oidc";
+            })
+            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+            {
+                options.Authority = "https://localhost:5001";
+                options.TokenValidationParameters.ValidateAudience = false;
+            })
+            .AddOpenIdConnect("oidc", options =>
+            {
+                options.Authority = "https://localhost:5001";
 
-        services.AddDatabaseDeveloperPageExceptionFilter();
-        
-        services.AddIdentityApiEndpoints<IdentityUser>()
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddApiEndpoints();
+                options.ClientId = "web";
+                options.ClientSecret = "secret";
+                options.ResponseType = "code";
+
+                options.Scope.Clear();
+                options.Scope.Add("openid");
+                options.Scope.Add("profile");
+                options.GetClaimsFromUserInfoEndpoint = true;
+
+                options.MapInboundClaims = false; // Don't rename claim types (to Microsoft type names)
+
+                options.ClaimActions.MapJsonKey("role", "role", "role");    //rename the role claim to get this claim from IdP
+                options.TokenValidationParameters.NameClaimType = "name";   //rename the name claim to get this claim from IdP
+                options.TokenValidationParameters.RoleClaimType = "role";   //rename the role claim to get this claim from IdP
+
+                // Issue was in the following default name and type definitions
+                // ClaimsIdentity.DefaultRoleClaimType - "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+                // ClaimsIdentity.DefaultNameClaimType - "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
+
+                options.SaveTokens = true;
+            });
 
         services.AddAuthorization();
 
