@@ -51,7 +51,7 @@ public static class DependencyInjection
             {
                 options.Authority = "https://localhost:5001";
 
-                options.ClientId = "web";
+                options.ClientId = "catalog_service";
                 options.ClientSecret = "secret";
                 options.ResponseType = "code";
 

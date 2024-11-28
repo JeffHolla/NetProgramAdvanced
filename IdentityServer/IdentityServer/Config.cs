@@ -13,7 +13,8 @@ namespace IdentityServer
 
         public static IEnumerable<ApiScope> ApiScopes =>
             [
-                new ApiScope("catalog_api")
+                new ApiScope("catalog_api"),
+                new ApiScope("cart_api")
             ];
 
         public static IEnumerable<Client> Clients =>
@@ -21,7 +22,7 @@ namespace IdentityServer
                 // web client using code flow + pkce
                 new Client
                 {
-                    ClientId = "web",
+                    ClientId = "catalog_service",
                     ClientSecrets = { new Secret("secret".Sha256()) },
 
                     AllowedGrantTypes = GrantTypes.Code,
@@ -35,7 +36,29 @@ namespace IdentityServer
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "catalog_api"
+                        "catalog_api",
+                        "cart_api"
+                    }
+                },
+                // web client using code flow + pkce
+                new Client
+                {
+                    ClientId = "cart_service",
+                    ClientSecrets = { new Secret("secret".Sha256()) },
+
+                    AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
+
+                    // where to redirect to after login
+                    RedirectUris = { "https://localhost:57931/signin-oidc" },
+                    // where to redirect to after logout
+                    PostLogoutRedirectUris = { "https://localhost:57931/signout-callback-oidc" },
+
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "catalog_api",
+                        "cart_api"
                     }
                 }
             ];

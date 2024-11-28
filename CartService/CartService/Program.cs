@@ -1,6 +1,7 @@
 ﻿using CartService.BLL.CartLogic;
 using CartService.BLL.CartLogic.Events;
 using CartService.Common.Messaging;
+using CartService.PL.WebAPI.Middlewares;
 using CatalogService.Infrastructure.Services.CartService;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client.Events;
@@ -35,6 +36,9 @@ namespace CartService
 
             builder.Services.AddVersioning();
             builder.Services.AddSwagger();
+
+            builder.Services.ConfigureAuthentication();
+            builder.Services.ConfigureAuthorization();
 
             // -------------- Request Pipeline --------------
             var app = builder.Build();
@@ -74,14 +78,13 @@ namespace CartService
 
             app.UseHttpsRedirection();
 
-            app.MapControllers();
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseIdentityLogging();
+
+            app.MapControllers()
+               .RequireAuthorization();
         }
-
-        private static IHostApplicationBuilder GetConsoleBuilder()
-            => Host.CreateApplicationBuilder();
-
-        private static IHostApplicationBuilder GetWebBuilder()
-            => Host.CreateApplicationBuilder();
 
         private static void ConfigureQueueListening(WebApplication app)
         {
@@ -90,10 +93,10 @@ namespace CartService
             client.QueueName = queueOptions.Value.QueueName;
             client.HostName = queueOptions.Value.HostName;
 
-            client.ConfigureReceiveMessageAsync(Handler);
+            client.ConfigureReceiveMessageAsync(MessageHandler);
         }
 
-        private static async Task Handler(object model, BasicDeliverEventArgs eventArgs)
+        private static async Task MessageHandler(object model, BasicDeliverEventArgs eventArgs)
         {
             using var scope = _serviceProvider.CreateAsyncScope();
             var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();

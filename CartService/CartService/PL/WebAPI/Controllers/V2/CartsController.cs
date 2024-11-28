@@ -1,5 +1,7 @@
 ﻿using Asp.Versioning;
 using CartService.BLL.CartLogic;
+using CartService.Common.Security.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CartService.PL.WebAPI.Controllers.V2;
@@ -8,6 +10,7 @@ namespace CartService.PL.WebAPI.Controllers.V2;
 [Route("api/v{version:apiVersion}/carts")]
 [Produces("application/json")]
 [Consumes("application/json")]
+[Authorize(Roles = $"{ApplicationRoles.Manager}, {ApplicationRoles.StoreCustomer}")]
 public class CartsController(ICartLogicHandler cartLogic) : ControllerBase
 {
     /// <summary>    

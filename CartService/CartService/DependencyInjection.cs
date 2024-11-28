@@ -1,13 +1,20 @@
 ﻿using Asp.Versioning;
 using CartService.BLL.CartLogic;
+using CartService.BLL.CartLogic.Events;
 using CartService.Common.Entities;
 using CartService.Common.Messaging;
 using CartService.DAL.Repositories;
 using CartService.DAL.Repositories.Common;
 using CatalogService.Infrastructure.Services.CartService;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
+using RabbitMQ.Client.Events;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
+using System.Text.Json.Nodes;
+using System.Text;
 
 namespace CartService
 {
@@ -60,6 +67,51 @@ namespace CartService
             });
 
             services.AddEndpointsApiExplorer();
+        }
+
+        internal static void ConfigureAuthentication(this IServiceCollection services)
+        {
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = "oidc";
+            })
+            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+            {
+                options.Authority = "https://localhost:5001";
+                options.TokenValidationParameters.ValidateAudience = false;
+            })
+            .AddOpenIdConnect("oidc", options =>
+            {
+                options.Authority = "https://localhost:5001";
+
+                options.ClientId = "cart_service";
+                options.ClientSecret = "secret";
+                options.ResponseType = "code";
+
+                options.Scope.Clear();
+                options.Scope.Add("openid");
+                options.Scope.Add("profile");
+                options.GetClaimsFromUserInfoEndpoint = true;
+
+                options.MapInboundClaims = false; // Don't rename claim types (to Microsoft type names)
+
+                options.ClaimActions.MapJsonKey("role", "role", "role");    //rename the role claim to get this claim from IdP
+                options.TokenValidationParameters.NameClaimType = "name";   //rename the name claim to get this claim from IdP
+                options.TokenValidationParameters.RoleClaimType = "role";   //rename the role claim to get this claim from IdP
+
+                // Issue was in the following default name and type definitions
+                // ClaimsIdentity.DefaultRoleClaimType - "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+                // ClaimsIdentity.DefaultNameClaimType - "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
+
+                options.SaveTokens = true;
+            });
+        }
+
+        internal static void ConfigureAuthorization(this IServiceCollection services)
+        {
+            services.AddAuthorization();
         }
     }
 }
