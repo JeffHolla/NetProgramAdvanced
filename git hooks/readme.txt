@@ -1,0 +1,1 @@
+In order to use Git hooks, the files located here need to be moved to the .git/hooks folder.

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+GREENBOLD='\033[0;32;1m'
+BOLD='\033[1m'
+NORMAL='\033[0m'
+
+echo -e "${GREENBOLD} Starting pre-commit hook... ${NORMAL}"
+
+# pwd
+# echo -e "${GREENBOLD} Starting dotnet format... ${NORMAL}"
+# dotnet format "./CartService/CartService" -v diag
+
+# exit 1
