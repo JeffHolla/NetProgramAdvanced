@@ -2,11 +2,15 @@
   "profiles": {
     "CartService": {
       "commandName": "Project",
-      "launchBrowser": false,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "https://localhost:57931;http://localhost:57932"
+    },
+    "SonarCheck": {
+      "commandName": "Executable",
+      "executablePath": "$(MSBuildStartupDirectory)\\SonarQube\\SonarQubeCheck.bat",
+      "commandLineArgs": "$(MSBuildStartupDirectory)"
     }
   }
 }
