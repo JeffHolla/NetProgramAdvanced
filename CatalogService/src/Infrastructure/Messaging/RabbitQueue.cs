@@ -59,7 +59,17 @@ public class RabbitQueue : IQueueClient, IDisposable
 
     public void Dispose()
     {
-        _channel?.Dispose();
-        _connection?.Dispose();
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+
+            _channel?.Dispose();
+            _connection?.Dispose();
+        }
     }
 }

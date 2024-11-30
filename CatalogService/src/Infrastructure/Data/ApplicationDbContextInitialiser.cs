@@ -63,7 +63,8 @@ public class ApplicationDbContextInitialiser
     public async Task TrySeedAsync()
     {
         // Default test data
-        if (!_context.Categories.Any())
+        var isAnyCategories = await _context.Categories.AnyAsync();
+        if (!isAnyCategories)
         {
             var firstCategory = new Category
             {

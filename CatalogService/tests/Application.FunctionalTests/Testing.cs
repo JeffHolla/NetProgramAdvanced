@@ -43,13 +43,7 @@ public partial class Testing
 
     public static async Task ResetState()
     {
-        try
-        {
-            await _database.ResetAsync();
-        }
-        catch (Exception) 
-        {
-        }
+        await _database.ResetAsync();
     }
 
     public static async Task AddAsync<TEntity>(TEntity entity)

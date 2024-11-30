@@ -23,7 +23,7 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
                     validator.ValidateAsync(context, cancellationToken)));
 
             var failures = validationResults
-                .Where(result => result.Errors.Any())
+                .Where(result => result.Errors.Count == 0)
                 .SelectMany(failure => failure.Errors)
                 .ToList();
 

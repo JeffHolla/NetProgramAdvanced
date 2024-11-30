@@ -127,7 +127,7 @@ csharp_style_prefer_index_operator = true:suggestion
 csharp_style_prefer_range_operator = true:suggestion
 csharp_style_throw_expression = true:suggestion
 csharp_style_unused_value_assignment_preference = discard_variable:suggestion
-csharp_style_unused_value_expression_statement_preference = discard_variable:silent
+csharp_style_unused_value_expression_statement_preference = unused_local_variable:silent
 
 # 'using' directive preferences
 csharp_using_directive_placement = outside_namespace:silent
@@ -188,7 +188,23 @@ csharp_style_implicit_object_creation_when_type_is_apparent = true:suggestion
 csharp_style_prefer_tuple_swap = true:suggestion
 csharp_style_prefer_utf8_string_literals = true:suggestion
 
-#### Naming styles ####
+#### Sonar Qube rules ####
+
+# S6966: Awaitable method should be used
+dotnet_diagnostic.S6966.severity = suggestion
+
+# S2139: Either log this exception and handle it, or rethrow it with some contextual information.
+dotnet_diagnostic.S2139.severity = suggestion
+
+# S927: Parameter names should match base declaration and other partial definitions
+dotnet_diagnostic.S927.severity = silent
+
+# S1006: Method overrides should not change parameter defaults
+dotnet_diagnostic.S1006.severity = silent
+
+
+
+
 [*.{cs,vb}]
 
 # Naming rules
@@ -237,7 +253,7 @@ dotnet_naming_rule.private_fields_should_be__camelcase.severity = suggestion
 dotnet_naming_rule.private_fields_should_be__camelcase.symbols = private_fields
 dotnet_naming_rule.private_fields_should_be__camelcase.style = _camelcase
 
-dotnet_naming_rule.private_static_fields_should_be_s_camelcase.severity = suggestion
+dotnet_naming_rule.private_static_fields_should_be_s_camelcase.severity = none
 dotnet_naming_rule.private_static_fields_should_be_s_camelcase.symbols = private_static_fields
 dotnet_naming_rule.private_static_fields_should_be_s_camelcase.style = s_camelcase
 
@@ -383,3 +399,21 @@ dotnet_style_namespace_match_folder = true:suggestion
 tab_width = 4
 indent_size = 4
 end_of_line = lf
+dotnet_style_prefer_collection_expression = when_types_loosely_match:suggestion
+
+
+# Rule Exceptions
+[**/Migrations/**]
+dotnet_analyzer_diagnostic.severity = none
+# S1192: String literals should not be duplicated
+dotnet_diagnostic.S1192.severity = none
+
+[tests/**]
+# NUnit1028: The non-test method is public
+dotnet_diagnostic.NUnit1028.severity = none
+
+# CA1861: Avoid constant arrays as arguments
+dotnet_diagnostic.CA1861.severity = none
+
+# S3878: Arrays should not be created for params parameters
+dotnet_diagnostic.S3878.severity = none

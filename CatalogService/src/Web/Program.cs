@@ -1,7 +1,6 @@
 using System.Text.Json.Serialization;
 using CatalogService.Infrastructure;
 using CatalogService.Infrastructure.Data;
-using Microsoft.AspNetCore.Identity;
 
 namespace CatalogService.Web;
 
