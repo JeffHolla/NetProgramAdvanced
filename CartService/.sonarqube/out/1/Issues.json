@@ -1,0 +1,552 @@
+{
+  "$schema": "http://json.schemastore.org/sarif-1.0.0",
+  "version": "1.0.0",
+  "runs": [
+    {
+      "tool": {
+        "name": "Microsoft (R) Visual C# Compiler",
+        "version": "4.11.0.0",
+        "fileVersion": "4.11.0-3.24365.8 (9e9c7c1d)",
+        "semanticVersion": "4.11.0",
+        "language": "en-US"
+      },
+      "results": [
+        {
+          "ruleId": "CS0029",
+          "level": "error",
+          "message": "Cannot implicitly convert type 'int' to 'string'",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Aleksandr_Goriachkin/Desktop/NetProgramAdvanced/CartService/CartService.Tests/BLL_Tests/CartLogic/CartLogicHandlerTests.cs",
+                "region": {
+                  "startLine": 29,
+                  "startColumn": 47,
+                  "endLine": 29,
+                  "endColumn": 53
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CS1503",
+          "level": "error",
+          "message": "Argument 1: cannot convert from 'int' to 'string'",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Aleksandr_Goriachkin/Desktop/NetProgramAdvanced/CartService/CartService.Tests/BLL_Tests/CartLogic/CartLogicHandlerTests.cs",
+                "region": {
+                  "startLine": 30,
+                  "startColumn": 44,
+                  "endLine": 30,
+                  "endColumn": 58
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CS1061",
+          "level": "error",
+          "message": "'CartLogicHandler' does not contain a definition for 'GetCartItemsAsync' and no accessible extension method 'GetCartItemsAsync' accepting a first argument of type 'CartLogicHandler' could be found (are you missing a using directive or an assembly reference?)",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Aleksandr_Goriachkin/Desktop/NetProgramAdvanced/CartService/CartService.Tests/BLL_Tests/CartLogic/CartLogicHandlerTests.cs",
+                "region": {
+                  "startLine": 33,
+                  "startColumn": 46,
+                  "endLine": 33,
+                  "endColumn": 63
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CS0029",
+          "level": "error",
+          "message": "Cannot implicitly convert type 'int' to 'string'",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Aleksandr_Goriachkin/Desktop/NetProgramAdvanced/CartService/CartService.Tests/DAL_Tests/Repositories/CartRepositoryTests.cs",
+                "region": {
+                  "startLine": 21,
+                  "startColumn": 50,
+                  "endLine": 21,
+                  "endColumn": 51
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CS1503",
+          "level": "error",
+          "message": "Argument 1: cannot convert from 'int' to 'string'",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Aleksandr_Goriachkin/Desktop/NetProgramAdvanced/CartService/CartService.Tests/DAL_Tests/Repositories/CartRepositoryTests.cs",
+                "region": {
+                  "startLine": 30,
+                  "startColumn": 62,
+                  "endLine": 30,
+                  "endColumn": 63
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CS0029",
+          "level": "error",
+          "message": "Cannot implicitly convert type 'int' to 'string'",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Aleksandr_Goriachkin/Desktop/NetProgramAdvanced/CartService/CartService.Tests/BLL_Tests/CartLogic/CartLogicHandlerTests.cs",
+                "region": {
+                  "startLine": 45,
+                  "startColumn": 47,
+                  "endLine": 45,
+                  "endColumn": 53
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CS1503",
+          "level": "error",
+          "message": "Argument 1: cannot convert from 'int' to 'string'",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Aleksandr_Goriachkin/Desktop/NetProgramAdvanced/CartService/CartService.Tests/BLL_Tests/CartLogic/CartLogicHandlerTests.cs",
+                "region": {
+                  "startLine": 46,
+                  "startColumn": 44,
+                  "endLine": 46,
+                  "endColumn": 58
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CS1503",
+          "level": "error",
+          "message": "Argument 1: cannot convert from 'int' to 'string'",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Aleksandr_Goriachkin/Desktop/NetProgramAdvanced/CartService/CartService.Tests/BLL_Tests/CartLogic/CartLogicHandlerTests.cs",
+                "region": {
+                  "startLine": 49,
+                  "startColumn": 49,
+                  "endLine": 49,
+                  "endColumn": 55
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CS1503",
+          "level": "error",
+          "message": "Argument 1: cannot convert from 'int' to 'string'",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Aleksandr_Goriachkin/Desktop/NetProgramAdvanced/CartService/CartService.Tests/BLL_Tests/CartLogic/CartLogicHandlerTests.cs",
+                "region": {
+                  "startLine": 52,
+                  "startColumn": 65,
+                  "endLine": 52,
+                  "endColumn": 71
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CS0029",
+          "level": "error",
+          "message": "Cannot implicitly convert type 'int' to 'string'",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Aleksandr_Goriachkin/Desktop/NetProgramAdvanced/CartService/CartService.Tests/BLL_Tests/CartLogic/CartLogicHandlerTests.cs",
+                "region": {
+                  "startLine": 62,
+                  "startColumn": 47,
+                  "endLine": 62,
+                  "endColumn": 53
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CS1503",
+          "level": "error",
+          "message": "Argument 1: cannot convert from 'int' to 'string'",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Aleksandr_Goriachkin/Desktop/NetProgramAdvanced/CartService/CartService.Tests/BLL_Tests/CartLogic/CartLogicHandlerTests.cs",
+                "region": {
+                  "startLine": 63,
+                  "startColumn": 44,
+                  "endLine": 63,
+                  "endColumn": 58
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CS1503",
+          "level": "error",
+          "message": "Argument 1: cannot convert from 'int' to 'string'",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Aleksandr_Goriachkin/Desktop/NetProgramAdvanced/CartService/CartService.Tests/BLL_Tests/CartLogic/CartLogicHandlerTests.cs",
+                "region": {
+                  "startLine": 66,
+                  "startColumn": 74,
+                  "endLine": 66,
+                  "endColumn": 80
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CS1503",
+          "level": "error",
+          "message": "Argument 1: cannot convert from 'int' to 'string'",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Aleksandr_Goriachkin/Desktop/NetProgramAdvanced/CartService/CartService.Tests/BLL_Tests/CartLogic/CartLogicHandlerTests.cs",
+                "region": {
+                  "startLine": 70,
+                  "startColumn": 69,
+                  "endLine": 70,
+                  "endColumn": 75
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable field '_cartLogic' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the field as nullable.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Aleksandr_Goriachkin/Desktop/NetProgramAdvanced/CartService/CartService.Tests/BLL_Tests/CartLogic/CartLogicHandlerTests.cs",
+                "region": {
+                  "startLine": 13,
+                  "startColumn": 34,
+                  "endLine": 13,
+                  "endColumn": 44
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/Aleksandr_Goriachkin/Desktop/NetProgramAdvanced/CartService/CartService.Tests/BLL_Tests/CartLogic/CartLogicHandlerTests.cs",
+                "region": {
+                  "startLine": 13,
+                  "startColumn": 34,
+                  "endLine": 13,
+                  "endColumn": 44
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable field '_cartRepository' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the field as nullable.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Aleksandr_Goriachkin/Desktop/NetProgramAdvanced/CartService/CartService.Tests/BLL_Tests/CartLogic/CartLogicHandlerTests.cs",
+                "region": {
+                  "startLine": 14,
+                  "startColumn": 35,
+                  "endLine": 14,
+                  "endColumn": 50
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/Aleksandr_Goriachkin/Desktop/NetProgramAdvanced/CartService/CartService.Tests/BLL_Tests/CartLogic/CartLogicHandlerTests.cs",
+                "region": {
+                  "startLine": 14,
+                  "startColumn": 35,
+                  "endLine": 14,
+                  "endColumn": 50
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "NS1004",
+          "level": "warning",
+          "message": "Argument matcher used with a non-virtual member of a class.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Aleksandr_Goriachkin/Desktop/NetProgramAdvanced/CartService/CartService.Tests/BLL_Tests/CartLogic/CartLogicHandlerTests.cs",
+                "region": {
+                  "startLine": 46,
+                  "startColumn": 44,
+                  "endLine": 46,
+                  "endColumn": 58
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "NS1004",
+          "level": "warning",
+          "message": "Argument matcher used with a non-virtual member of a class.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Aleksandr_Goriachkin/Desktop/NetProgramAdvanced/CartService/CartService.Tests/BLL_Tests/CartLogic/CartLogicHandlerTests.cs",
+                "region": {
+                  "startLine": 63,
+                  "startColumn": 44,
+                  "endLine": 63,
+                  "endColumn": 58
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "NS1004",
+          "level": "warning",
+          "message": "Argument matcher used with a non-virtual member of a class.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Aleksandr_Goriachkin/Desktop/NetProgramAdvanced/CartService/CartService.Tests/BLL_Tests/CartLogic/CartLogicHandlerTests.cs",
+                "region": {
+                  "startLine": 30,
+                  "startColumn": 44,
+                  "endLine": 30,
+                  "endColumn": 58
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "NS1004",
+          "level": "warning",
+          "message": "Argument matcher used with a non-virtual member of a class.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Aleksandr_Goriachkin/Desktop/NetProgramAdvanced/CartService/CartService.Tests/BLL_Tests/CartLogic/CartLogicHandlerTests.cs",
+                "region": {
+                  "startLine": 52,
+                  "startColumn": 73,
+                  "endLine": 52,
+                  "endColumn": 88
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "NS1004",
+          "level": "warning",
+          "message": "Argument matcher used with a non-virtual member of a class.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Aleksandr_Goriachkin/Desktop/NetProgramAdvanced/CartService/CartService.Tests/BLL_Tests/CartLogic/CartLogicHandlerTests.cs",
+                "region": {
+                  "startLine": 70,
+                  "startColumn": 77,
+                  "endLine": 70,
+                  "endColumn": 92
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "NS5000",
+          "level": "warning",
+          "message": "Unused received check. To fix, make sure there is a call after \"Received\". Correct: \"sub.Received().SomeCall();\". Incorrect: \"sub.Received();\"",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Aleksandr_Goriachkin/Desktop/NetProgramAdvanced/CartService/CartService.Tests/BLL_Tests/CartLogic/CartLogicHandlerTests.cs",
+                "region": {
+                  "startLine": 52,
+                  "startColumn": 19,
+                  "endLine": 52,
+                  "endColumn": 46
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "NS5000",
+          "level": "warning",
+          "message": "Unused received check. To fix, make sure there is a call after \"DidNotReceive\". Correct: \"sub.DidNotReceive().SomeCall();\". Incorrect: \"sub.DidNotReceive();\"",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Aleksandr_Goriachkin/Desktop/NetProgramAdvanced/CartService/CartService.Tests/BLL_Tests/CartLogic/CartLogicHandlerTests.cs",
+                "region": {
+                  "startLine": 70,
+                  "startColumn": 19,
+                  "endLine": 70,
+                  "endColumn": 50
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        }
+      ],
+      "rules": {
+        "CS0029": {
+          "id": "CS0029",
+          "defaultLevel": "error",
+          "helpUri": "https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS0029)",
+          "properties": {
+            "category": "Compiler",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Compiler",
+              "Telemetry",
+              "NotConfigurable"
+            ]
+          }
+        },
+        "CS1061": {
+          "id": "CS1061",
+          "defaultLevel": "error",
+          "helpUri": "https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS1061)",
+          "properties": {
+            "category": "Compiler",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Compiler",
+              "Telemetry",
+              "NotConfigurable"
+            ]
+          }
+        },
+        "CS1503": {
+          "id": "CS1503",
+          "defaultLevel": "error",
+          "helpUri": "https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS1503)",
+          "properties": {
+            "category": "Compiler",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Compiler",
+              "Telemetry",
+              "NotConfigurable"
+            ]
+          }
+        },
+        "CS8618": {
+          "id": "CS8618",
+          "shortDescription": "Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.",
+          "defaultLevel": "warning",
+          "helpUri": "https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS8618)",
+          "properties": {
+            "category": "Compiler",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Compiler",
+              "Telemetry"
+            ]
+          }
+        },
+        "NS1004": {
+          "id": "NS1004",
+          "shortDescription": "Argument matcher used with a non-virtual member of a class.",
+          "fullDescription": "Argument matcher used with a non-virtual member of a class.",
+          "defaultLevel": "warning",
+          "helpUri": "https://github.com/nsubstitute/NSubstitute.Analyzers/blob/master/documentation/rules/NS1004.md",
+          "properties": {
+            "category": "Non-substitutable member",
+            "isEnabledByDefault": true
+          }
+        },
+        "NS5000": {
+          "id": "NS5000",
+          "shortDescription": "Received check.",
+          "fullDescription": "Unused received check.",
+          "defaultLevel": "warning",
+          "helpUri": "https://github.com/nsubstitute/NSubstitute.Analyzers/blob/master/documentation/rules/NS5000.md",
+          "properties": {
+            "category": "Usage",
+            "isEnabledByDefault": true
+          }
+        }
+      }
+    }
+  ]
+}

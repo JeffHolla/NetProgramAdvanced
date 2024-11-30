@@ -18,10 +18,10 @@ public class RabbitQueue : IQueueClient, IDisposable
 
         var body = Encoding.UTF8.GetBytes(message);
 
-        await _channel.BasicPublishAsync(routingKey: QueueName,
-                                         body: body,
+        await _channel.BasicPublishAsync(exchange: string.Empty,
+                                         routingKey: QueueName,
                                          mandatory: false,
-                                         exchange: string.Empty,
+                                         body: body,
                                          cancellationToken: cancellationToken);
     }
 
@@ -72,7 +72,16 @@ public class RabbitQueue : IQueueClient, IDisposable
 
     public void Dispose()
     {
-        _channel?.Dispose();
-        _connection?.Dispose();
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _channel?.Dispose();
+            _connection?.Dispose();
+        }
     }
 }

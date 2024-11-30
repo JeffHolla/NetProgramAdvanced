@@ -8,7 +8,7 @@ namespace CartService.DAL.Repositories.Common
 
         private ILiteDatabaseAsync _connection;
         public ILiteDatabaseAsync GetConnection()
-        { 
+        {
             _connection ??= new LiteDatabaseAsync(ConnectionString);
             return _connection;
         }

@@ -18,7 +18,7 @@ namespace CartService.Tests.DAL_Tests.Repositories
         public async Task GetCartItems_Works()
         {
             var item = new ProductItem(1, "name 1", 1, 1);
-            var expectedCart = new Cart() { Id = 1, Items = [item] };
+            var expectedCart = new Cart() { Id = "1", Items = [item] };
             await InitializeTestDatabaseAsync(expectedCart);
 
             var dbConnectionProvider = Substitute.For<IDbConnectionProvider>();
@@ -27,7 +27,7 @@ namespace CartService.Tests.DAL_Tests.Repositories
             var cartRepository = new CartRepository(dbConnectionProvider);
 
             // Act
-            var actual = await cartRepository.GetEntityAsync(1);
+            var actual = await cartRepository.GetEntityAsync("1");
 
             // Assert
             actual.Should().BeEquivalentTo(expectedCart);

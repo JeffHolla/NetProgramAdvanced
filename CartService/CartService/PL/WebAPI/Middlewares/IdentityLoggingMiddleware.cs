@@ -30,12 +30,12 @@ namespace CartService.PL.WebAPI.Middlewares
             stringBuilder.AppendLine("Claims: [");
             foreach (var claim in claims)
             {
-                stringBuilder.AppendLine($"{{ ");
+                stringBuilder.AppendLine("{ ");
                 stringBuilder.AppendLine($" {{ Subject: '{claim.Subject}' }}, ");
                 stringBuilder.AppendLine($" {{ Issuer: '{claim.Issuer}' }}, ");
                 stringBuilder.AppendLine($" {{ Value: '{claim.Value}' }}, ");
                 stringBuilder.AppendLine($" {{ ValueType: '{claim.ValueType}' }}");
-                stringBuilder.AppendLine($"}}, ");
+                stringBuilder.AppendLine("}, ");
             }
             stringBuilder.AppendLine("]");
         }
@@ -45,7 +45,7 @@ namespace CartService.PL.WebAPI.Middlewares
             stringBuilder.AppendLine("Identities: [");
             foreach (var identity in identitites)
             {
-                stringBuilder.AppendLine($"{{ ");
+                stringBuilder.AppendLine("{ ");
                 stringBuilder.AppendLine($" {{ ActorName: '{identity.Actor?.Name}' }}, ");
                 stringBuilder.AppendLine($" {{ IdentityName: '{identity.Name}' }}, ");
                 stringBuilder.AppendLine($" {{ AuthenticationType: '{identity.AuthenticationType}' }}, ");
@@ -53,7 +53,7 @@ namespace CartService.PL.WebAPI.Middlewares
                 stringBuilder.AppendLine($" {{ NameClaimType: '{identity.NameClaimType}' }}");
                 stringBuilder.AppendLine($" {{ RoleClaimType: '{identity.RoleClaimType}' }}");
                 stringBuilder.AppendLine($" {{ Label: '{identity.Label}' }}");
-                stringBuilder.AppendLine($"}}, ");
+                stringBuilder.AppendLine("}, ");
             }
             stringBuilder.AppendLine("]");
         }

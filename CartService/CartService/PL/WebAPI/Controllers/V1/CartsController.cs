@@ -53,7 +53,7 @@ public class CartsController(ICartLogicHandler cartLogic) : ControllerBase
     ///     An object representing information about a cart.
     /// </returns> 
     [HttpGet("{cartId}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType<Cart>(StatusCodes.Status200OK)]
     public IActionResult GetCartInfo(string cartId)
     {
         var cart = cartLogic.GetCartAsync(cartId);

@@ -7,7 +7,7 @@ namespace CartService.BLL.CartLogic
     public class CartEventHandler : ICartEventHandler
     {
         private readonly IRepository<Cart> _cartRepository;
-        
+
         public CartEventHandler(IRepository<Cart> cartRepository)
         {
             _cartRepository = cartRepository;

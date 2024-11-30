@@ -23,27 +23,31 @@ namespace CartService.Tests.BLL_Tests.CartLogic
         [Test]
         public async Task GetCartItemsAsync_Works()
         {
-            var cartId = 1;
-            var expectedItemInCart = new ProductItem(1, "name 1", 1, 1);
+            var cartId = "1";
+            var expectedItemsInCart = new List<ProductItem>() { new(1, "name 1", 1, 1) };
+            var expectedCartInfo = new Cart
+            {
+                Id = cartId,
+                Items = expectedItemsInCart
+            };
 
-            var cartDummy = new Cart() { Id = cartId, Items = [expectedItemInCart] };
-            _cartRepository.GetEntityAsync(Arg.Any<int>()).Returns(cartDummy);
+            _cartRepository.GetEntityAsync(Arg.Any<string>()).Returns(expectedCartInfo);
 
             // Act
-            var cartItems = await _cartLogic.GetCartItemsAsync(cartId);
+            var cartInfo = await _cartLogic.GetCartAsync(cartId);
 
             // Assert
-            cartItems.Should().BeEquivalentTo([expectedItemInCart]);
+            cartInfo.Should().BeEquivalentTo(expectedCartInfo);
         }
 
         [Test]
         public async Task AddItemToCartAsync_Works()
         {
-            var cartId = 1;
+            var cartId = "1";
             var itemToAdd = new ProductItem(1, "name 1", 1, 1);
 
             var cartDummy = new Cart() { Id = cartId };
-            _cartRepository.GetEntityAsync(Arg.Any<int>()).Returns(cartDummy);
+            _cartRepository.GetEntityAsync(Arg.Any<string>()).Returns(cartDummy);
 
             // Act
             await _cartLogic.AddItemToCartAsync(cartId, itemToAdd);
@@ -55,12 +59,12 @@ namespace CartService.Tests.BLL_Tests.CartLogic
         [Test]
         public async Task AddItemToCartAsync_ThrowsExceptionOnInvalidItem()
         {
-            var cartId = 1;
+            var cartId = "1";
             var itemInvalidName = "";
             var itemToAdd = new ProductItem(1, itemInvalidName, 1, 1);
 
             var cartDummy = new Cart() { Id = cartId };
-            _cartRepository.GetEntityAsync(Arg.Any<int>()).Returns(cartDummy);
+            _cartRepository.GetEntityAsync(Arg.Any<string>()).Returns(cartDummy);
 
             // Act
             var action = async () => await _cartLogic.AddItemToCartAsync(cartId, itemToAdd);

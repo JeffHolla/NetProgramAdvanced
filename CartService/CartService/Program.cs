@@ -98,7 +98,7 @@ namespace CartService
 
         private static async Task MessageHandler(object model, BasicDeliverEventArgs eventArgs)
         {
-            using var scope = _serviceProvider.CreateAsyncScope();
+            await using var scope = _serviceProvider.CreateAsyncScope();
             var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 
             var body = eventArgs.Body.ToArray();
@@ -109,17 +109,17 @@ namespace CartService
             var jsonObject = JsonObject.Parse(message);
             var messageType = jsonObject["Type"].GetValue<string>();
 
-            switch(messageType)
+            switch (messageType)
             {
                 // Surely there must be a better approach
-                case nameof(UpdateProductEvent): 
+                case nameof(UpdateProductEvent):
                     var updateProductEvent = JsonSerializer.Deserialize<UpdateProductEvent>(message);
                     var eventHandler = scope.ServiceProvider.GetService<ICartEventHandler>();
                     await eventHandler.UpdateItemInAllCartsAsync(updateProductEvent);
                     break;
-                default: 
+                default:
                     throw new ArgumentException($"Unexpected event received: '{messageType}' / '{message}'.");
-            };
+            }
         }
     }
 }

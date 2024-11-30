@@ -20,8 +20,8 @@ public abstract class BaseRepository<T> : IRepository<T>
 
     public abstract Task AddEntityAsync(T newEntity);
 
-    public abstract Task UpdateEntityAsync(string entityToUpdateId, T updatedEntity);
+    public abstract Task UpdateEntityAsync(string entityId, T updatedEntity);
 
-    protected ILiteDatabaseAsync OpenConnection() 
+    protected ILiteDatabaseAsync OpenConnection()
         => _connectionProvider.GetConnection();
 }

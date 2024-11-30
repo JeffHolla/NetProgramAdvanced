@@ -35,12 +35,12 @@ namespace CartService.DAL.Repositories
             await carts.InsertAsync(newEntity);
         }
 
-        public override async Task UpdateEntityAsync(string entityToUpdateId, Cart updatedEntity)
+        public override async Task UpdateEntityAsync(string entityId, Cart updatedEntity)
         {
             var connection = OpenConnection();
             var carts = connection.GetCollection<Cart>();
 
-            var cartToUpdate = await carts.FindOneAsync(cart => cart.Id == entityToUpdateId);
+            var cartToUpdate = await carts.FindOneAsync(cart => cart.Id == entityId);
             await carts.UpdateAsync(cartToUpdate.Id, updatedEntity);
         }
     }

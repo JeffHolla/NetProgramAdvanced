@@ -3,6 +3,8 @@ using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
+namespace CartService.PL.WebAPI;
+
 //https://github.com/dotnet/aspnet-api-versioning/wiki/API-Documentation#aspnet-core
 public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
 {

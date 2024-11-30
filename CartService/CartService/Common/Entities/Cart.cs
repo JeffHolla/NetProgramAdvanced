@@ -21,8 +21,7 @@ public class Cart
 
     public void RemoveItem(int itemId)
     {
-        // Alternative solution - FindIndex. Array.IndexOf is used in the implementation of List.Remove(Item).
-        var itemForRemoval = Items.FirstOrDefault(item => item.Id == itemId);
+        var itemForRemoval = Items.Find(item => item.Id == itemId);
         if (itemForRemoval is null)
         {
             throw new NotFoundCartItemException($"Item Id '{itemId}' was not found in a cart with Id '{Id}'.");
