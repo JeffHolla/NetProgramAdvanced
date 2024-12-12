@@ -38,6 +38,7 @@ public class ApplicationDbContextInitialiser
     {
         try
         {
+            _context.Database.EnsureDeleted();
             await _context.Database.MigrateAsync();
         }
         catch (Exception ex)

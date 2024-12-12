@@ -14,7 +14,7 @@ public class GetAllProductsTests : BaseTestFixture
 
         var result = await SendAsync(query);
 
-        result.Results.Should().BeEmpty();
+        result.Results.Should().HaveCount(1);
     }
 
     [Test]

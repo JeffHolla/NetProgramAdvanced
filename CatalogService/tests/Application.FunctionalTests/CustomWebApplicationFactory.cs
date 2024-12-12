@@ -26,7 +26,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 
             services
                 .RemoveAll<DbContextOptions<ApplicationDbContext>>()
-                .AddDbContext<ApplicationDbContext>(options => options.UseSqlite(_connection));
+                .AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(_connection));
         });
     }
 }

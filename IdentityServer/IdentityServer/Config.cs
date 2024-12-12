@@ -49,9 +49,11 @@ namespace IdentityServer
                     AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
 
                     // where to redirect to after login
-                    RedirectUris = { "https://localhost:57931/signin-oidc" },
+                    //RedirectUris = { "https://localhost:57931/signin-oidc" },
+                    RedirectUris = { "https://identityserver:57931/signin-oidc" },
                     // where to redirect to after logout
-                    PostLogoutRedirectUris = { "https://localhost:57931/signout-callback-oidc" },
+                    //PostLogoutRedirectUris = { "https://localhost:57931/signout-callback-oidc" },
+                    PostLogoutRedirectUris = { "https://identityserver:57931/signout-callback-oidc" },
 
                     AllowedScopes =
                     {

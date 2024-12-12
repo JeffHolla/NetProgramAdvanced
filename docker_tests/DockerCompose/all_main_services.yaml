@@ -1,0 +1,50 @@
+version: '3'
+
+# https://docs.docker.com/compose/how-tos/project-name/#set-a-project-name
+name: 'net_advanced'
+
+services:
+  mypostgresql:
+    image: mypostgresql:latest
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=admin
+    restart: unless-stopped
+
+  # myrabbitmq:
+  #   image: myrabbitmq:latest
+  #   ports:
+  #     - 5672:5672
+  #     - 15672:15672
+  #   restart: unless-stopped
+
+  catalogservice:
+    image: catalogservice
+    ports:
+      - 54283:54283
+      - 54284:54284
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - mypostgresql
+    restart: unless-stopped
+
+  cartservice:
+    image: cartservice
+    ports:
+      - 57931:57931
+      - 57932:57932
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    restart: unless-stopped
+
+  identityserver:
+    image: identityserver
+    ports:
+      - 5001:5001
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    restart: unless-stopped
+  
+    #command: sleep 5000 &

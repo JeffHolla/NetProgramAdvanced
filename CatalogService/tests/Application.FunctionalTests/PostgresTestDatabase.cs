@@ -1,20 +1,20 @@
 ﻿using System.Data;
 using System.Data.Common;
 using CatalogService.Infrastructure.Data;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace CatalogService.Application.FunctionalTests;
 
-public class SqliteTestDatabase : ITestDatabase
+public class PostgresTestDatabase : ITestDatabase
 {
     private readonly string _connectionString;
-    private readonly SqliteConnection _connection;
+    private readonly NpgsqlConnection _connection;
 
-    public SqliteTestDatabase()
+    public PostgresTestDatabase()
     {
         _connectionString = "DataSource=:memory:";
-        _connection = new SqliteConnection(_connectionString);
+        _connection = new NpgsqlConnection(_connectionString);
     }
 
     public async Task InitialiseAsync()
@@ -27,7 +27,7 @@ public class SqliteTestDatabase : ITestDatabase
         await _connection.OpenAsync();
 
         var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseSqlite(_connection)
+            .UseNpgsql(_connection)
             .Options;
 
         var context = new ApplicationDbContext(options);

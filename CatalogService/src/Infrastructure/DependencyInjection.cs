@@ -19,7 +19,7 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("DefaultConnection");
-        services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(connectionString));
+        services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
         services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -35,45 +35,45 @@ public static class DependencyInjection
         services.Configure<CartQueueOptions>(configuration.GetSection("CartQueue"));
 
         // Authentication, Authorization
-        services
-            .AddAuthentication(options =>
-            {
-                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = "oidc";
-            })
-            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
-            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
-            {
-                options.Authority = "https://localhost:5001";
-                options.TokenValidationParameters.ValidateAudience = false;
-            })
-            .AddOpenIdConnect("oidc", options =>
-            {
-                options.Authority = "https://localhost:5001";
+        //services
+        //    .AddAuthentication(options =>
+        //    {
+        //        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        //        options.DefaultChallengeScheme = "oidc";
+        //    })
+        //    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+        //    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+        //    {
+        //        options.Authority = "https://localhost:5001";
+        //        options.TokenValidationParameters.ValidateAudience = false;
+        //    })
+        //    .AddOpenIdConnect("oidc", options =>
+        //    {
+        //        options.Authority = "https://localhost:5001";
 
-                options.ClientId = "catalog_service";
-                options.ClientSecret = "secret";
-                options.ResponseType = "code";
+        //        options.ClientId = "catalog_service";
+        //        options.ClientSecret = "secret";
+        //        options.ResponseType = "code";
 
-                options.Scope.Clear();
-                options.Scope.Add("openid");
-                options.Scope.Add("profile");
-                options.GetClaimsFromUserInfoEndpoint = true;
+        //        options.Scope.Clear();
+        //        options.Scope.Add("openid");
+        //        options.Scope.Add("profile");
+        //        options.GetClaimsFromUserInfoEndpoint = true;
 
-                options.MapInboundClaims = false; // Don't rename claim types (to Microsoft type names)
+        //        options.MapInboundClaims = false; // Don't rename claim types (to Microsoft type names)
 
-                options.ClaimActions.MapJsonKey("role", "role", "role");    //rename the role claim to get this claim from IdP
-                options.TokenValidationParameters.NameClaimType = "name";   //rename the name claim to get this claim from IdP
-                options.TokenValidationParameters.RoleClaimType = "role";   //rename the role claim to get this claim from IdP
+        //        options.ClaimActions.MapJsonKey("role", "role", "role");    //rename the role claim to get this claim from IdP
+        //        options.TokenValidationParameters.NameClaimType = "name";   //rename the name claim to get this claim from IdP
+        //        options.TokenValidationParameters.RoleClaimType = "role";   //rename the role claim to get this claim from IdP
 
-                // Issue was in the following default name and type definitions
-                // ClaimsIdentity.DefaultRoleClaimType - "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
-                // ClaimsIdentity.DefaultNameClaimType - "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
+        //        // Issue was in the following default name and type definitions
+        //        // ClaimsIdentity.DefaultRoleClaimType - "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+        //        // ClaimsIdentity.DefaultNameClaimType - "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
 
-                options.SaveTokens = true;
-            });
+        //        options.SaveTokens = true;
+        //    });
 
-        services.AddAuthorization();
+        //services.AddAuthorization();
 
         return services;
     }

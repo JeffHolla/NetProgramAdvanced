@@ -47,13 +47,14 @@ public class Program
         app.UseRouting();
 
         // https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity?view=aspnetcore-8.0&tabs=visual-studio#configure-identity-services
-        app.UseAuthentication();
+        //app.UseAuthentication();
 
-        app.UseAuthorization();
+        //app.UseAuthorization();
 
-        app.MapControllers()
-            .RequireAuthorization();
+        //app.MapControllers()
+        //    .RequireAuthorization();
 
+        app.MapControllers();
         app.Run();
     }
 }

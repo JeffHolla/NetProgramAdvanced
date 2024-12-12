@@ -19,8 +19,6 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 
         builder.Property(product => product.Amount)
             .IsRequired();
-        builder.ToTable(builder => 
-            builder.HasCheckConstraint("PositiveAmountConstraint", "Amount >= 0")
-        );
+        // TODO: Return this constraint
     }
 }

@@ -61,7 +61,7 @@ public partial class Testing
     [OneTimeTearDown]
     public async Task RunAfterAnyTests()
     {
-        await _database.DisposeAsync();
+        await _database?.DisposeAsync();
         await _factory.DisposeAsync();
     }
 }

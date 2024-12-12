@@ -80,12 +80,14 @@ namespace CartService
             .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
             {
-                options.Authority = "https://localhost:5001";
+                //options.Authority = "https://localhost:5001";
+                options.Authority = "https://identityserver:5001";
                 options.TokenValidationParameters.ValidateAudience = false;
             })
             .AddOpenIdConnect("oidc", options =>
             {
-                options.Authority = "https://localhost:5001";
+                //options.Authority = "https://localhost:5001";
+                options.Authority = "https://identityserver:5001";
 
                 options.ClientId = "cart_service";
                 options.ClientSecret = "secret";
