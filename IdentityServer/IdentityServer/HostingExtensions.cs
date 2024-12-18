@@ -5,6 +5,7 @@ using IdentityServer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using System.Net;
 using System.Security.Claims;
 
 namespace IdentityServer
@@ -55,7 +56,7 @@ namespace IdentityServer
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseStaticFiles();
             app.UseRouting();

@@ -19,32 +19,58 @@ services:
   #     - 15672:15672
   #   restart: unless-stopped
 
-  catalogservice:
-    image: catalogservice
-    ports:
-      - 54283:54283
-      - 54284:54284
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    depends_on:
-      - mypostgresql
-    restart: unless-stopped
+  # catalogservice:
+  #   image: catalogservice
+  #   ports:
+  #     - 54283:54283
+  #     - 54284:54284
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=Development
+  #   depends_on:
+  #     - mypostgresql
+  #   restart: unless-stopped
 
   cartservice:
     image: cartservice
     ports:
-      - 57931:57931
-      - 57932:57932
+      # - 57931:57931 # https
+      # - 57932:57932 # http
+      - "57931:80"
+      # - "57932:443"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      # - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      # - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      # - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.local/share/mkcert/rootCA.pem
+      # - ASPNETCORE_Kestrel__Certificates__Default__KeyPath=/root/.local/share/mkcert/rootCA-key.pem
+      # - ASPNETCORE_URLS=https://+;http://+
+      - ASPNETCORE_URLS=http://+
+      # - ASPNETCORE_HTTPS_PORT=57932
+    volumes:
+      - ~/.aspnet/https:/https
     restart: unless-stopped
+    command: sleep 5000h &
 
   identityserver:
     image: identityserver
     ports:
-      - 5001:5001
+      # - 5001:5001 # https
+      - 5001:80 # https
+      # - 5001:443 # https
+      # - 4430:443 # https
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      # - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      # - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      # - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.local/share/mkcert/rootCA.pem
+      # - ASPNETCORE_Kestrel__Certificates__Default__KeyPath=/root/.local/share/mkcert/rootCA-key.pem
+      # - ASPNETCORE_URLS=https://+;http://+
+      - ASPNETCORE_URLS=http://+
+      # - ASPNETCORE_HTTPS_PORT=5001
+      - Hello=Hi
+    volumes:
+      - ~/.aspnet/https:/https
     restart: unless-stopped
+    command: sleep 5000h &
   
     #command: sleep 5000 &

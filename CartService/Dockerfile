@@ -1,6 +1,7 @@
 
 # This stage is used to build the service project
-FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
+# FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ENV APP_NAME=CartService
 # ARG BUILD_CONFIGURATION=Release
 ARG BUILD_CONFIGURATION=Debug
@@ -13,15 +14,22 @@ RUN dotnet restore \
 WORKDIR /
 
 # FROM build as cleanup
-RUN rm -r /${APP_NAME}
+# RUN rm -r /${APP_NAME}
 
 FROM build as startup
 WORKDIR /publish_app
-EXPOSE 57931
-EXPOSE 57932
-ENV ASPNETCORE_URLS=https://+:57931
-ENV ASPNETCORE_URLS=http://+:57932
+# EXPOSE 57931
+# EXPOSE 57932
+# ENV ASPNETCORE_URLS=https://+:57931
+# ENV ASPNETCORE_URLS=http://+:57932
 
-RUN dotnet dev-certs https
+# Since /https folder is not mounted yet, we can't copy certs
+# RUN cp /https/ipaddress* /etc/ssl/certs/ && update-ca-certificates && update-ca-certificates --fresh
 
-CMD dotnet ${APP_NAME}.dll
+# RUN apk add openssl
+# RUN dotnet dev-certs https --clean
+# RUN dotnet dev-certs https --trust
+
+RUN apt update && apt install mkcert 
+
+CMD sleep 20s && dotnet ${APP_NAME}.dll

@@ -3,8 +3,11 @@ using CartService.BLL.CartLogic.Events;
 using CartService.Common.Messaging;
 using CartService.PL.WebAPI.Middlewares;
 using CatalogService.Infrastructure.Services.CartService;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client.Events;
+using System.Net;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -19,6 +22,21 @@ namespace CartService
         static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            //builder.WebHost.UseKestrel(options =>
+            //{
+            //    options.Listen(IPAddress.Loopback, 57931, listenOptions =>
+            //    {
+            //        listenOptions.UseHttps("/https/identity_certs.pfx", "password");
+            //    });
+            //});
+
+            //webBuilder.UseKestrel(kestrelOptions =>
+            //{
+            //    kestrelOptions.ConfigureHttpsDefaults(httpsOptions =>
+            //    {
+            //        httpsOptions.SslProtocols = SslProtocols.Tls12 | SslProtocols.Tls13;
+            //    });
+            //});
 
             var appSettingsEnvironment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
@@ -76,7 +94,12 @@ namespace CartService
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            app.MapBffManagementEndpoints();
+            app.MapGet("/local/identity", null)
+                .AsBffApiEndpoint();
+            app.MapRemoteBffApiEndpoint("/remote", "https://localhost:5001");
+
+            //app.UseHttpsRedirection();
 
             app.UseAuthentication();
             app.UseAuthorization();

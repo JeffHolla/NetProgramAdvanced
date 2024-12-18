@@ -1,6 +1,7 @@
 
 # This stage is used to build the service project
-FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
+# FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ENV APP_NAME=CatalogService
 # ARG BUILD_CONFIGURATION=Release
 ARG BUILD_CONFIGURATION=Debug
@@ -22,6 +23,8 @@ EXPOSE 54284
 ENV ASPNETCORE_URLS=https://+:54283
 ENV ASPNETCORE_URLS=http://+:54284
 
-RUN dotnet dev-certs https
+# RUN apk add openssl
+# RUN dotnet dev-certs https --clean
+# RUN dotnet dev-certs https --trust
 
 CMD dotnet ${APP_NAME}.Web.dll

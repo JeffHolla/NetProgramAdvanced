@@ -5,7 +5,9 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:57931;http://localhost:57932"
+      "applicationUrl": "http://localhost:30500"
+      //"https://localhost:57931;
+      //"applicationUrl": "https://localhost:4430"
     },
     "SonarCheck": {
       "commandName": "Executable",

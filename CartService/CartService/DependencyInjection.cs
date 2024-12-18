@@ -16,6 +16,8 @@ using System.Reflection;
 using System.Text.Json.Nodes;
 using System.Text;
 using CartService.PL.WebAPI;
+using Microsoft.Extensions.Hosting;
+using Duende.Bff.Yarp;
 
 namespace CartService
 {
@@ -72,6 +74,12 @@ namespace CartService
 
         internal static void ConfigureAuthentication(this IServiceCollection services)
         {
+            services
+                .AddBff(opt =>
+                {
+                })
+                .AddRemoteApis();
+
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -81,13 +89,26 @@ namespace CartService
             .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
             {
                 //options.Authority = "https://localhost:5001";
-                options.Authority = "https://identityserver:5001";
+                //options.Authority = "https://identityserver:5001";
+                //options.Authority = "https://identityserver:443";
+                //options.Authority = "http://identityserver:80";
+                //options.Authority = "http://localhost:30001";
+                options.Authority = "http://localhost:5001";
                 options.TokenValidationParameters.ValidateAudience = false;
+
+                options.RequireHttpsMetadata = false; // Disable HTTPS, need to be enabled in the production
             })
             .AddOpenIdConnect("oidc", options =>
             {
                 //options.Authority = "https://localhost:5001";
-                options.Authority = "https://identityserver:5001";
+                //options.Authority = "https://identityserver:5001";
+                //options.Authority = "https://identityserver:443";
+                //options.Authority = "http://identityserver:80";
+                //options.Authority = "http://localhost:30001";
+                options.Authority = "http://localhost:5001";
+
+                //options.Backchannel.BaseAddress = new Uri("http://identityserver:80"); // null reference ex - Backchannel is null
+                //options.Backchannel.BaseAddress = new Uri("http://localhost:30001"); // null reference ex - Backchannel is null
 
                 options.ClientId = "cart_service";
                 options.ClientSecret = "secret";
@@ -109,6 +130,8 @@ namespace CartService
                 // ClaimsIdentity.DefaultNameClaimType - "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
 
                 options.SaveTokens = true;
+
+                options.RequireHttpsMetadata = false; // Disable HTTPS, need to be enabled in the production
             });
         }
 
