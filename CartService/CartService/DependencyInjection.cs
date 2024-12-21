@@ -74,12 +74,6 @@ namespace CartService
 
         internal static void ConfigureAuthentication(this IServiceCollection services)
         {
-            services
-                .AddBff(opt =>
-                {
-                })
-                .AddRemoteApis();
-
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -88,24 +82,14 @@ namespace CartService
             .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
             {
-                //options.Authority = "https://localhost:5001";
-                //options.Authority = "https://identityserver:5001";
-                //options.Authority = "https://identityserver:443";
-                //options.Authority = "http://identityserver:80";
-                //options.Authority = "http://localhost:30001";
-                options.Authority = "http://localhost:5001";
+                options.Authority = "http://identityserver";
                 options.TokenValidationParameters.ValidateAudience = false;
 
                 options.RequireHttpsMetadata = false; // Disable HTTPS, need to be enabled in the production
             })
             .AddOpenIdConnect("oidc", options =>
             {
-                //options.Authority = "https://localhost:5001";
-                //options.Authority = "https://identityserver:5001";
-                //options.Authority = "https://identityserver:443";
-                //options.Authority = "http://identityserver:80";
-                //options.Authority = "http://localhost:30001";
-                options.Authority = "http://localhost:5001";
+                options.Authority = "http://identityserver";
 
                 //options.Backchannel.BaseAddress = new Uri("http://identityserver:80"); // null reference ex - Backchannel is null
                 //options.Backchannel.BaseAddress = new Uri("http://localhost:30001"); // null reference ex - Backchannel is null

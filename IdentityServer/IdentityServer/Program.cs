@@ -11,13 +11,9 @@ Log.Information("Starting up");
 try
 {
     var builder = WebApplication.CreateBuilder(args);
-    //builder.WebHost.UseKestrel(options =>
-    //{
-    //    options.Listen(IPAddress.Loopback, 5001, listenOptions =>
-    //    {
-    //        listenOptions.UseHttps("/https/identity_certs.pfx", "password");
-    //    });
-    //});
+
+    // Aspire
+    builder.AddServiceDefaults();
 
     builder.Host.UseSerilog((ctx, lc) => lc
         .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}")

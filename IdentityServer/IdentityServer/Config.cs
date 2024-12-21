@@ -49,17 +49,9 @@ namespace IdentityServer
                     AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
 
                     // where to redirect to after login
-                    //RedirectUris = { "https://localhost:57931/signin-oidc" },
-                    //RedirectUris = { "https://localhost:4430/signin-oidc" },
-                    //RedirectUris = { "https://cartservice:443/signin-oidc" },
-                    //RedirectUris = { "http://localhost:30500/signin-oidc" },
-                    RedirectUris = { "http://cartservice:80/signin-oidc" },
+                    RedirectUris = { "http://cartservice/signin-oidc" },
                     // where to redirect to after logout
-                    //PostLogoutRedirectUris = { "https://localhost:57931/signout-callback-oidc" },
-                    //PostLogoutRedirectUris = { "https://localhost:4430/signout-callback-oidc" },
-                    //PostLogoutRedirectUris = { "https://cartservice:443/signout-callback-oidc" },
-                    //PostLogoutRedirectUris = { "http://localhost:30500/signout-callback-oidc" },
-                    PostLogoutRedirectUris = { "http://cartservice:80/signout-callback-oidc" },
+                    PostLogoutRedirectUris = { "http://cartservice/signout-callback-oidc" },
 
                     AllowedScopes =
                     {

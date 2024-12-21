@@ -22,26 +22,14 @@ namespace CartService
         static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            //builder.WebHost.UseKestrel(options =>
-            //{
-            //    options.Listen(IPAddress.Loopback, 57931, listenOptions =>
-            //    {
-            //        listenOptions.UseHttps("/https/identity_certs.pfx", "password");
-            //    });
-            //});
-
-            //webBuilder.UseKestrel(kestrelOptions =>
-            //{
-            //    kestrelOptions.ConfigureHttpsDefaults(httpsOptions =>
-            //    {
-            //        httpsOptions.SslProtocols = SslProtocols.Tls12 | SslProtocols.Tls13;
-            //    });
-            //});
 
             var appSettingsEnvironment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
               .AddJsonFile("appsettings.json", optional: false)
               .AddJsonFile($"appsettings.{appSettingsEnvironment}.json", optional: false);
+
+            // Aspire
+            builder.AddServiceDefaults();
 
             builder.Services.AddServices(builder.Configuration);
 
@@ -62,7 +50,7 @@ namespace CartService
             var app = builder.Build();
             _serviceProvider = app.Services;
 
-            ConfigureQueueListening(app);
+            //ConfigureQueueListening(app);
 
             ConfigurePipeline(app);
 
@@ -93,11 +81,6 @@ namespace CartService
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
-
-            app.MapBffManagementEndpoints();
-            app.MapGet("/local/identity", null)
-                .AsBffApiEndpoint();
-            app.MapRemoteBffApiEndpoint("/remote", "https://localhost:5001");
 
             //app.UseHttpsRedirection();
 
