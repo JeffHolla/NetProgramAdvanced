@@ -3,6 +3,7 @@
   <PropertyGroup>
     <RootNamespace>CatalogService.Application</RootNamespace>
     <AssemblyName>CatalogService.Application</AssemblyName>
+    <TargetFramework>net9.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>

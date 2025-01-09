@@ -6,7 +6,7 @@ namespace CatalogService.Web;
 
 public class Program
 {
-    private static async Task Main(string[] args)
+    public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +15,10 @@ public class Program
                       .AddJsonFile("appsettings.json", optional: false)
                       .AddJsonFile($"appsettings.{appSettingsEnvironment}.json", optional: false)
                       .AddEnvironmentVariables();
+
+        // Aspire
+        builder.AddServiceDefaults();
+        builder.Services.AddNpgsqlDataSource("Host=postgresdb;Port=5432;Database=catalogDb;Username=postgres;Password=admin;");
 
         builder.Services.AddApplicationServices();
         builder.Services.AddInfrastructureServices(builder.Configuration);

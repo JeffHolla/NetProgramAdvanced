@@ -2,32 +2,30 @@ using Aspire.Hosting;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
-//var postgres = builder
-//                    .AddDockerfile("mypostgresql", "C:\\Users\\Aleksandr_Goriachkin\\Desktop\\NetProgramAdvanced\\docker_tests\\PostgreSQL");
-
+// Postgres
 var postgres = builder.AddPostgres("postgres")
                       .WithDataVolume("postgres-volume");
 var postgresdb = postgres.AddDatabase("postgresdb");
 
-//var identityService = builder
-//                        .AddProject<Projects.IdentityServer>("identityserver")
-//                        .WithExternalHttpEndpoints();
+// Keycloack 
+var defaultLogin = builder.AddParameter("username", value: "admin");
+var defaultPassword = builder.AddParameter("password", value:"admin");
+var keycloak = builder.AddKeycloak("keycloak", 8080, defaultLogin, defaultPassword)
+    .WithDataVolume("keycloak_volume");
 
-
-var keycloak = builder.AddKeycloak("keycloak", 8080);
-
-
+// CartService
 var cartService = builder
                     .AddProject<Projects.CartService>("cartservice")
-                    .WithExternalHttpEndpoints()
-                    //.WithHttpEndpoint
-                    .WithReference(postgresdb)
-                    .WaitFor(postgresdb)
                     .WithReference(keycloak)
                     .WaitFor(keycloak);
-                    //.WithReference(identityService);
 
-//identityService.WithReference(cartService);
+// CatalogService
+var catalogService = builder
+                    .AddProject("catalogservice", ".\\CatalogService\\src\\Web\\Web.csproj")
+                    .WithReference(cartService)
+                    .WaitFor(cartService)
+                    .WithReference(postgresdb)
+                    .WaitFor(postgresdb);
 
 
 builder.Build().Run();

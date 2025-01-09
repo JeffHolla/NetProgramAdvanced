@@ -17,7 +17,10 @@ using System.Text.Json.Nodes;
 using System.Text;
 using CartService.PL.WebAPI;
 using Microsoft.Extensions.Hosting;
-using Duende.Bff.Yarp;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace CartService
 {
@@ -74,49 +77,32 @@ namespace CartService
 
         internal static void ConfigureAuthentication(this IServiceCollection services)
         {
-            services.AddAuthentication(options =>
-            {
-                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = "oidc";
-            })
-            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
-            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
-            {
-                options.Authority = "http://identityserver";
-                options.TokenValidationParameters.ValidateAudience = false;
+            const string oidcScheme = OpenIdConnectDefaults.AuthenticationScheme;
+            services.AddAuthentication(oidcScheme)
+                    .AddKeycloakOpenIdConnect("keycloak", realm: "master", oidcScheme, options =>
+                    {
+                        options.ClientId = "cartservice";
+                        options.ResponseType = OpenIdConnectResponseType.Code;
+                        options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 
-                options.RequireHttpsMetadata = false; // Disable HTTPS, need to be enabled in the production
-            })
-            .AddOpenIdConnect("oidc", options =>
-            {
-                options.Authority = "http://identityserver";
+                        options.Scope.Clear();
+                        options.Scope.Add("openid");
+                        options.Scope.Add("profile");
+                        options.GetClaimsFromUserInfoEndpoint = true;
 
-                //options.Backchannel.BaseAddress = new Uri("http://identityserver:80"); // null reference ex - Backchannel is null
-                //options.Backchannel.BaseAddress = new Uri("http://localhost:30001"); // null reference ex - Backchannel is null
+                        options.MapInboundClaims = false; // Don't rename claim types (to Microsoft type names)
 
-                options.ClientId = "cart_service";
-                options.ClientSecret = "secret";
-                options.ResponseType = "code";
+                        options.ClaimActions.MapJsonKey("role", "role", "role");    //rename the role claim to get this claim from IdP
+                        options.TokenValidationParameters.NameClaimType = "name";   //rename the name claim to get this claim from IdP
+                        options.TokenValidationParameters.RoleClaimType = "role";   //rename the role claim to get this claim from IdP
 
-                options.Scope.Clear();
-                options.Scope.Add("openid");
-                options.Scope.Add("profile");
-                options.GetClaimsFromUserInfoEndpoint = true;
+                        options.SaveTokens = true;
 
-                options.MapInboundClaims = false; // Don't rename claim types (to Microsoft type names)
+                        options.RequireHttpsMetadata = false; // Disable HTTPS, need to be enabled in the production
+                    })
+                    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme);
 
-                options.ClaimActions.MapJsonKey("role", "role", "role");    //rename the role claim to get this claim from IdP
-                options.TokenValidationParameters.NameClaimType = "name";   //rename the name claim to get this claim from IdP
-                options.TokenValidationParameters.RoleClaimType = "role";   //rename the role claim to get this claim from IdP
-
-                // Issue was in the following default name and type definitions
-                // ClaimsIdentity.DefaultRoleClaimType - "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
-                // ClaimsIdentity.DefaultNameClaimType - "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
-
-                options.SaveTokens = true;
-
-                options.RequireHttpsMetadata = false; // Disable HTTPS, need to be enabled in the production
-            });
+            services.AddCascadingAuthenticationState();
         }
 
         internal static void ConfigureAuthorization(this IServiceCollection services)

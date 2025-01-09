@@ -1,9 +1,11 @@
 ﻿using CartService.BLL.CartLogic;
 using CartService.BLL.CartLogic.Events;
 using CartService.Common.Messaging;
+using CartService.PL.WebAPI;
 using CartService.PL.WebAPI.Middlewares;
 using CatalogService.Infrastructure.Services.CartService;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client.Events;
 using System.Net;
@@ -22,6 +24,24 @@ namespace CartService
         static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            ConfigureServices(builder);
+
+            // -------------- Request Pipeline --------------
+            var app = builder.Build();
+            _serviceProvider = app.Services;
+
+            ConfigureQueueListening(app);
+
+            ConfigurePipeline(app);
+
+            app.Run();
+        }
+
+        internal static void ConfigureServices(WebApplicationBuilder builder)
+        {
+            // TODO: Debug settings, remove later
+            Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
 
             var appSettingsEnvironment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
@@ -45,16 +65,6 @@ namespace CartService
 
             builder.Services.ConfigureAuthentication();
             builder.Services.ConfigureAuthorization();
-
-            // -------------- Request Pipeline --------------
-            var app = builder.Build();
-            _serviceProvider = app.Services;
-
-            //ConfigureQueueListening(app);
-
-            ConfigurePipeline(app);
-
-            app.Run();
         }
 
         internal static void ConfigurePipeline(WebApplication app)
@@ -90,6 +100,8 @@ namespace CartService
 
             app.MapControllers()
                .RequireAuthorization();
+
+            app.MapLoginAndLogout();
         }
 
         private static void ConfigureQueueListening(WebApplication app)
