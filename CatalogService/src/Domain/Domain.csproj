@@ -6,4 +6,8 @@
     <TargetFramework>net9.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Aspire\NetAdvanced\NetAdvanced.ServiceDefaults\NetAdvanced.ServiceDefaults.csproj" />
+  </ItemGroup>
+
 </Project>

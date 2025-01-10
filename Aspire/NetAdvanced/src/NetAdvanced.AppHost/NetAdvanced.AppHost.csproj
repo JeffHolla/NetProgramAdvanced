@@ -18,8 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\CartService\CartService\CartService.csproj" />
-    <ProjectReference Include="..\..\..\IdentityServer\IdentityServer\IdentityServer.csproj" />
-  </ItemGroup>
+    <ProjectReference Include="..\Applications\CartService\CartService\CartService.csproj" />
+    <ProjectReference Include="..\Applications\CatalogService\Web\Web.csproj" AspireProjectMetadataTypeName="CatalogService"/>
+</ItemGroup>
 
 </Project>

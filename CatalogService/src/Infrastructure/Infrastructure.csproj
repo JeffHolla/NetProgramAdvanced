@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Application\Application.csproj" />
+    <ProjectReference Include="..\..\..\Aspire\NetAdvanced\NetAdvanced.ServiceDefaults\NetAdvanced.ServiceDefaults.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -16,8 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Aspire\NetAdvanced\NetAdvanced.ServiceDefaults\NetAdvanced.ServiceDefaults.csproj" />
-    <ProjectReference Include="..\Application\Application.csproj" />
-    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

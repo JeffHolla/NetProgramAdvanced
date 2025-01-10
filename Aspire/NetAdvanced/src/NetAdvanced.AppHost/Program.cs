@@ -1,11 +1,9 @@
-using Aspire.Hosting;
-
 var builder = DistributedApplication.CreateBuilder(args);
 
 // Postgres
 var postgres = builder.AddPostgres("postgres")
-                      .WithDataVolume("postgres-volume");
-var postgresdb = postgres.AddDatabase("postgresdb");
+                      .WithDataVolume("postgres-volume")
+                      .AddDatabase("postgresdb");
 
 // Keycloack 
 var defaultLogin = builder.AddParameter("username", value: "admin");
@@ -21,11 +19,11 @@ var cartService = builder
 
 // CatalogService
 var catalogService = builder
-                    .AddProject("catalogservice", ".\\CatalogService\\src\\Web\\Web.csproj")
+                    .AddProject<Projects.CatalogService>("catalogservice")
                     .WithReference(cartService)
                     .WaitFor(cartService)
-                    .WithReference(postgresdb)
-                    .WaitFor(postgresdb);
+                    .WithReference(postgres)
+                    .WaitFor(postgres);
 
 
 builder.Build().Run();

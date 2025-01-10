@@ -48,6 +48,7 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
+	
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Aspire\NetAdvanced\NetAdvanced.ServiceDefaults\NetAdvanced.ServiceDefaults.csproj" />
 	</ItemGroup>

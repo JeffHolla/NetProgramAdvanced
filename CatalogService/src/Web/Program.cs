@@ -18,7 +18,8 @@ public class Program
 
         // Aspire
         builder.AddServiceDefaults();
-        builder.Services.AddNpgsqlDataSource("Host=postgresdb;Port=5432;Database=catalogDb;Username=postgres;Password=admin;");
+        //builder.Services.AddNpgsqlDataSource("Host=postgresdb;Port=5432;Database=catalogDb;Username=postgres;Password=admin;");
+        builder.AddNpgsqlDbContext<ApplicationDbContext>("postgresdb");
 
         builder.Services.AddApplicationServices();
         builder.Services.AddInfrastructureServices(builder.Configuration);
