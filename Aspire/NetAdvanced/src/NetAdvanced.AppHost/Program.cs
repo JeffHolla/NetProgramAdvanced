@@ -26,4 +26,7 @@ var catalogService = builder
                     .WaitFor(postgres);
 
 
+builder.AddProject<Projects.OcelotGateway>("ocelotgateway");
+
+
 builder.Build().Run();

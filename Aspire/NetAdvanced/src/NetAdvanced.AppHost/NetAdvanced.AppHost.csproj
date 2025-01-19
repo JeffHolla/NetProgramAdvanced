@@ -19,7 +19,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Applications\CartService\CartService\CartService.csproj" />
-    <ProjectReference Include="..\Applications\CatalogService\Web\Web.csproj" AspireProjectMetadataTypeName="CatalogService"/>
+    <ProjectReference Include="..\Applications\CatalogService\Web\Web.csproj" AspireProjectMetadataTypeName="CatalogService" />
+    <ProjectReference Include="..\Applications\OcelotGateway\OcelotGateway\OcelotGateway.csproj" />
 </ItemGroup>
 
 </Project>
