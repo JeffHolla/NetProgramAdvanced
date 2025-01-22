@@ -1,3 +1,4 @@
+using Ocelot.Cache.CacheManager;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using OcelotGateway.DefinedAggregators;
@@ -23,10 +24,21 @@ public class Program
                     .AddJsonFile("ocelot.json")
                     .AddEnvironmentVariables();
             })
-            .ConfigureServices(services =>
+            .ConfigureServices((hostBuilder, services) =>
             {
+                // Ocelot
                 services.AddOcelot()
-                        .AddSingletonDefinedAggregator<CartCategoriesAggregator>();
+                        .AddSingletonDefinedAggregator<CartCategoriesAggregator>()
+                        .AddCacheManager(options => options.WithDictionaryHandle());
+
+                // Swagger
+                services.AddSwaggerForOcelot(
+                    hostBuilder.Configuration,
+                    options =>
+                    {
+                        options.GenerateDocsForAggregates = false;
+                    });
+
             })
             .ConfigureLogging((hostingContext, logging) =>
             {
@@ -36,6 +48,12 @@ public class Program
             .UseIISIntegration()
             .Configure(app =>
             {
+                // https://github.com/Burgyn/MMLib.SwaggerForOcelot
+                app.UseSwaggerForOcelotUI(opt =>
+                {
+                    opt.PathToSwaggerGenerator = "/swagger/docs";
+                });
+
                 app.UseOcelot().Wait();
             })
             .Build()

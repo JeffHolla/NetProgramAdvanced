@@ -15,9 +15,12 @@
         }
       ],
       "Key": "category-service-products-mock",
-      "Priority": 2,
+      //"SwaggerKey": "category-service-products-mock",
       "Metadata": {
         "ServiceName": "CatalogService"
+      },
+      "FileCacheOptions": {
+        "TtlSeconds": 60
       }
     },
     // CartService API
@@ -33,9 +36,12 @@
         }
       ],
       "Key": "cart-service-all-carts",
-      "Priority": 2,
+      "SwaggerKey": "cart-service-all-carts",
       "Metadata": {
         "ServiceName": "CartService"
+      },
+      "FileCacheOptions": {
+        "TtlSeconds": 60
       }
     }
   ],
@@ -43,14 +49,32 @@
     {
       "RouteKeys": [ "category-service-products-mock", "cart-service-all-carts" ],
       "UpstreamPathTemplate": "/services-all-info/{productInfo}",
-      "Aggregator": "CartCategoriesAggregator"
+      "Aggregator": "CartCategoriesAggregator",
+      "Description": "Special aggregate route for retrieving mock information about specific product and information about all carts."
+    }
+  ],
+  "SwaggerEndPoints": [
+    {
+      "Key": "cart-service-all-carts",
+      "Config": [
+        {
+          "Name": "Cart Service API",
+          "Version": "v1",
+          "Url": "http://localhost:30500/swagger/v1/swagger.json"
+        }
+      ]
     }
   ],
   "GlobalConfiguration": {
     "BaseUrl": "http://localhost:5174",
-    "DangerousAcceptAnyServerCertificateValidator": true,
+    "DangerousAcceptAnyServerCertificateValidator": true, // Should be disabled in production
     "HttpHandlerOptions": {
       "UseTracing": true
+    },
+    "FileCacheOptions": {
+      "TtlSeconds": 60,
+      "Region": "europe-central",
+      "EnableContentHashing": false
     }
   }
 }

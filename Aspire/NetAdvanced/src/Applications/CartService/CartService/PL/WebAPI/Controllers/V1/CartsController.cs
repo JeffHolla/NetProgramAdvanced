@@ -3,7 +3,6 @@ using CartService.BLL.CartLogic;
 using CartService.Common.Entities;
 using CartService.Common.Security.Identity;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CartService.PL.WebAPI.Controllers.V1;
@@ -12,7 +11,7 @@ namespace CartService.PL.WebAPI.Controllers.V1;
 [Route("api/v{version:apiVersion}/carts")]
 [Produces("application/json")]
 [Consumes("application/json")]
-//[Authorize(Roles = $"{ApplicationRoles.Manager}, {ApplicationRoles.StoreCustomer}")]
+[Authorize(Roles = $"{ApplicationRoles.Manager}, {ApplicationRoles.StoreCustomer}")]
 public class CartsController(ICartLogicHandler cartLogic) : ControllerBase
 {
     /// <summary>    
@@ -82,7 +81,8 @@ public class CartsController(ICartLogicHandler cartLogic) : ControllerBase
     /// <param name="productItem">The item you want to add to the cart</param>
     /// <returns>    
     ///     The result of request processing as an HTTP status.
-    /// </returns> 
+    /// </returns>
+    [Authorize(Roles = ApplicationRoles.Manager)]
     [HttpPost("{cartId}/items")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> AddItmeToCart(string cartId, [FromBody] ProductItem productItem)
@@ -104,7 +104,8 @@ public class CartsController(ICartLogicHandler cartLogic) : ControllerBase
     /// <param name="itemId">The item ID you want to delete from the cart</param>
     /// <returns>    
     ///     The result of request processing as an HTTP status.
-    /// </returns> 
+    /// </returns>
+    [Authorize(Roles = ApplicationRoles.Manager)]
     [HttpDelete("{cartId}/items/{itemId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> AddItmeToCart(string cartId, int itemId)

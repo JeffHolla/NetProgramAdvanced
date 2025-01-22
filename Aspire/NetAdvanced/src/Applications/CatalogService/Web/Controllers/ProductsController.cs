@@ -16,7 +16,7 @@ namespace CatalogService.Web.Controllers;
 [ApiController]
 [Produces("application/json")]
 [Consumes("application/json", "application/xml")]
-//[Authorize(Roles = $"{ApplicationRoles.Manager}, {ApplicationRoles.StoreCustomer}")]
+[Authorize(Roles = $"{ApplicationRoles.Manager}, {ApplicationRoles.StoreCustomer}")]
 public class ProductsController(IMediator mediator) : ControllerBase
 {
     [HttpGet]
@@ -49,7 +49,7 @@ public class ProductsController(IMediator mediator) : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public IActionResult GetProductProperties(int productId)
     {
-        var result = new { Category = "Samsung", Model = "s10" };
+        var result = new { Category = "Samsung", Model = "s10", TimeOfRetrieval = DateTime.Now };
         return Ok(result);
     }
 

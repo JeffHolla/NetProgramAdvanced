@@ -22,6 +22,8 @@ var catalogService = builder
                     .AddProject<Projects.CatalogService>("catalogservice")
                     .WithReference(cartService)
                     .WaitFor(cartService)
+                    .WithReference(keycloak)
+                    .WaitFor(keycloak)
                     .WithReference(postgres)
                     .WaitFor(postgres);
 

@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using MMLib.SwaggerForOcelot.Aggregates;
 using Ocelot.Middleware;
 using Ocelot.Multiplexer;
 using OcelotGateway.Common;
@@ -6,6 +7,7 @@ using OcelotGateway.Utility;
 
 namespace OcelotGateway.DefinedAggregators;
 
+[AggregateResponse("Special aggregate route for retrieving mock information about specific product and information about all carts.", typeof(CartCategoriesViewModel))]
 public class CartCategoriesAggregator : IDefinedAggregator
 {
     public async Task<DownstreamResponse> Aggregate(List<HttpContext> responseHttpContexts)

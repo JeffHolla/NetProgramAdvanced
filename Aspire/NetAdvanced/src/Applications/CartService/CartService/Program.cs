@@ -1,23 +1,15 @@
-﻿using CartService.BLL.CartLogic;
+﻿using System.Text;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
+using CartService.BLL.CartLogic;
 using CartService.BLL.CartLogic.Events;
 using CartService.Common.Messaging;
 using CartService.PL.WebAPI;
 using CartService.PL.WebAPI.Middlewares;
 using CatalogService.Infrastructure.Services.CartService;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client.Events;
-using System.Net;
-using System.Reflection.PortableExecutable;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Nodes;
-using System.Text.Json.Serialization;
 
 namespace CartService
 {
@@ -57,6 +49,8 @@ namespace CartService
 
             builder.Services.AddServices(builder.Configuration);
 
+            builder.Services.AddHttpClient();
+
             builder.Services.AddControllers()
                 .AddJsonOptions(options =>
                 {
@@ -67,12 +61,14 @@ namespace CartService
             builder.Services.AddVersioning();
             builder.Services.AddSwagger();
 
-            builder.Services.ConfigureAuthentication();
-            builder.Services.ConfigureAuthorization();
+            builder.Services.ConfigureAuthentication(builder.Configuration);
+            builder.Services.ConfigureAuthorization(builder.Configuration);
         }
 
         internal static void ConfigurePipeline(WebApplication app)
         {
+            app.MapGet("/", () => "[]").RequireAuthorization("Admin");
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -102,8 +98,7 @@ namespace CartService
             app.UseAuthorization();
             app.UseIdentityLogging();
 
-            app.MapControllers()
-               .RequireAuthorization();
+            app.MapControllers();
 
             app.MapLoginAndLogout();
         }

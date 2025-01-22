@@ -1,7 +1,4 @@
-﻿using System.Security.Claims;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using CatalogService.Application.Features.CategoryHandlers.Command.AddCategory;
+﻿using CatalogService.Application.Features.CategoryHandlers.Command.AddCategory;
 using CatalogService.Application.Features.CategoryHandlers.Command.DeleteCategory;
 using CatalogService.Application.Features.CategoryHandlers.Command.UpdateCategory;
 using CatalogService.Application.Features.CategoryHandlers.Queries.GetAllCategories;
@@ -10,7 +7,6 @@ using CatalogService.Domain.Entities;
 using CatalogService.Infrastructure.Security.Identity;
 using CatalogService.Web.RestModels;
 using MediatR;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,7 +16,7 @@ namespace CatalogService.Web.Controllers;
 [ApiController]
 [Produces("application/json", "application/xml")]
 [Consumes("application/json", "application/xml")]
-//[Authorize(Roles = $"{ApplicationRoles.Manager}, {ApplicationRoles.StoreCustomer}")]
+[Authorize(Roles = $"{ApplicationRoles.Manager}, {ApplicationRoles.StoreCustomer}")]
 public class CategoriesController(IMediator mediator) : ControllerBase
 {
     [HttpGet]
