@@ -58,7 +58,6 @@ public class Program
         app.MapControllers()
             .RequireAuthorization();
 
-        app.MapControllers();
         app.Run();
     }
 }

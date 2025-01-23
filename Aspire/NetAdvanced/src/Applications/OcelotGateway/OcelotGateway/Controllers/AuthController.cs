@@ -1,29 +1,30 @@
-﻿using Asp.Versioning;
-using CartService.Common.Entities;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OcelotGateway.Common;
 
-namespace CartService.PL.WebAPI.Controllers.V1
+namespace OcelotGateway.Controllers
 {
-    // This controller should be in KeyCloak, but there is no project for KeyCloak since I'm using Aspire
-    // Maybe I should move it to ApiGateway then
-    [ApiController, ApiVersion(1.0)]
-    [Route("api/v{version:apiVersion}/auth")]
+    [ApiController]
+    [Route("api/auth")]
     [AllowAnonymous]
-    public class AuthController(IHttpClientFactory httpClientFactory) : ControllerBase
+    public class AuthController(IHttpClientFactory httpClientFactory, IConfiguration configuration) : ControllerBase
     {
-        // POST: api/v{version}/auth
+        // POST: api/auth
         [HttpPost]
         public async Task<IActionResult> GetAccessToken([FromBody] TokenRequestModel model)
         {
+            if (!IsModelCorrect(model))
+            {
+                return StatusCode(400, "Model is incorrect!");
+            }
+
             try
             {
                 // Create an instance of HttpClient using the factory
                 var client = httpClientFactory.CreateClient();
 
-                // TODO: Update it to take such values from Configuration
                 // Specify the token endpoint URL
-                var tokenEndpoint = "http://localhost:8080/realms/master/protocol/openid-connect/token";
+                var tokenEndpoint = configuration["KeycloakTokenUrl"];
 
                 // Prepare the request content (form-urlencoded) with required parameters
                 var requestContent = new FormUrlEncodedContent(new[]
@@ -31,8 +32,8 @@ namespace CartService.PL.WebAPI.Controllers.V1
                     new KeyValuePair<string, string>("grant_type", "password"),
                     new KeyValuePair<string, string>("client_id", "cartservice"),
                     new KeyValuePair<string, string>("client_secret", "cartservice"),
-                    new KeyValuePair<string, string>("username", model.Username ?? ""),
-                    new KeyValuePair<string, string>("password", model.Password ?? "")
+                    new KeyValuePair<string, string>("username", model.Username),
+                    new KeyValuePair<string, string>("password", model.Password)
                 });
 
                 // Send a POST request to the token endpoint with the prepared request content
@@ -57,5 +58,8 @@ namespace CartService.PL.WebAPI.Controllers.V1
                 return StatusCode(500, $"An error occurred while retrieving access token: {ex.Message}");
             }
         }
+
+        private static bool IsModelCorrect(TokenRequestModel model)
+            => !string.IsNullOrWhiteSpace(model.Password) && !string.IsNullOrWhiteSpace(model.Username);
     }
 }

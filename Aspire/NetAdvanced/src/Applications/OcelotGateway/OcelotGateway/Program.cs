@@ -37,8 +37,10 @@ public class Program
                     options =>
                     {
                         options.GenerateDocsForAggregates = false;
+                        options.GenerateDocsForGatewayItSelf = true;
                     });
 
+                services.AddControllers();
             })
             .ConfigureLogging((hostingContext, logging) =>
             {
@@ -48,6 +50,16 @@ public class Program
             .UseIISIntegration()
             .Configure(app =>
             {
+                app.UseRouting();
+
+                // For Gateway itself
+                app.UseSwagger();
+
+                app.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllers();
+                });
+
                 // https://github.com/Burgyn/MMLib.SwaggerForOcelot
                 app.UseSwaggerForOcelotUI(opt =>
                 {

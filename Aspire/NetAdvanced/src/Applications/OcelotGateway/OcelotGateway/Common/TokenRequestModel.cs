@@ -1,4 +1,4 @@
-﻿namespace CartService.Common.Entities
+﻿namespace OcelotGateway.Common
 {
     public class TokenRequestModel
     {
